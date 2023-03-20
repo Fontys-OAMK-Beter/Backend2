@@ -12,6 +12,12 @@ namespace GroopySwoopyAPI.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
+        private readonly UserService userService;
+        public UserController() {
+
+            userService = new UserService(new UserDataservice());
+        }
+
         // GET api/<UserController>/5
         [HttpGet("{id}")]
         public User Get(int id)
@@ -28,7 +34,6 @@ namespace GroopySwoopyAPI.Controllers
             //}
 
             //return users.ToArray();
-            UserService userService = new UserService(new UserDataservice());
             UserDTO dbUser = userService.GetUserByID(id);
 
 
@@ -47,7 +52,6 @@ namespace GroopySwoopyAPI.Controllers
         [HttpPost]
         public void Post(string name, string email, string password)
         {
-            UserService userService = new UserService(new UserDataservice());
             UserDTO user = new UserDTO();
             user.Name = name;
             user.Email = email;
@@ -65,6 +69,12 @@ namespace GroopySwoopyAPI.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+        }
+
+        [HttpGet("{email},{password}")]
+        public int Login(string email, string password)
+        {
+            return (int)userService.LoginUser(email, password);
         }
     }
 }
