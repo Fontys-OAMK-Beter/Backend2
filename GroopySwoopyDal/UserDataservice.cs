@@ -125,8 +125,9 @@ namespace GroopySwoopyDAL
                 }
         }
 
-        public int LoginUser(UserDTO user)
+        public Guid LoginUser(UserDTO user)
         {
+            Guid SessionID = new Guid();
             using (MySqlConnection con = DatabaseConnection.CreateConnection())
 
                 try
@@ -139,7 +140,7 @@ namespace GroopySwoopyDAL
                         con.Open();
                         var reader = cmd.ExecuteReader();
                         var test = reader.Read();
-                        user.Id = reader.GetInt32(0);
+                        //SessionID = new Guid(reader.GetString(8));
                     }
 
 
@@ -147,13 +148,43 @@ namespace GroopySwoopyDAL
                 catch (Exception exception)
                 {
                     Console.WriteLine(exception.ToString());
-                    return 0;
+                    throw exception;
                 }
                 finally
                 {
                     con.Close();
                 }
-            return (int)user.Id;
+            return SessionID;
+        }
+
+        public Boolean AuthorizeUser(Guid SessionID)
+        {
+            using (MySqlConnection con = DatabaseConnection.CreateConnection())
+
+                try
+                {
+                    using (MySqlCommand cmd = new MySqlCommand($"SELECT id FROM user WHERE session_id = @sessionID", con))
+                    {
+                        cmd.Parameters.AddWithValue("@sessionID", SessionID.ToString());
+
+                        con.Open();
+                        var reader = cmd.ExecuteReader();
+                        if (reader.Read())
+                            return true;
+                    }
+
+
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception.ToString());
+                    return false;
+                }
+                finally
+                {
+                    con.Close();
+                }
+            return false;
         }
     }
 }

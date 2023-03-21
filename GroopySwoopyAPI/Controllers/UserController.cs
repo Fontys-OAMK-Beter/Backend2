@@ -38,7 +38,7 @@ namespace GroopySwoopyAPI.Controllers
 
             User user = new User();
 
-            if (HttpContext.Session.GetString("SessionKey") == null)
+            if (!Authorize())
             {
                 HttpContext.Response.StatusCode = (int)System.Net.HttpStatusCode.Unauthorized;
                 return user;
@@ -80,12 +80,16 @@ namespace GroopySwoopyAPI.Controllers
 
         [Route("login")]
         [HttpPost]
-        public int Login([FromBody] User _user)
+        public void Login([FromBody] User _user)
         {
-            int userID = (int)userService.LoginUser(_user.Email, _user.Password);
-            //return userID;
-            HttpContext.Session.SetString("SessionKey", userID.ToString());
-            return userID;
+            Guid SessionID = userService.LoginUser(_user.Email, _user.Password);
+            HttpContext.Session.SetString("SessionID", SessionID.ToString());
+        }
+
+        private Boolean Authorize()
+        {
+            Guid SessionID = new Guid(HttpContext.Session.GetString("SessionID"));
+            return userService.AuthorizeUser(SessionID);
         }
     }
 }
