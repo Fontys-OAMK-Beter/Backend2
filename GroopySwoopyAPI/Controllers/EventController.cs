@@ -4,7 +4,6 @@ using GroopySwoopyLogic;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using NuGet.Protocol.Plugins;
 using System.Text.RegularExpressions;
 
 namespace GroopySwoopyAPI.Controllers

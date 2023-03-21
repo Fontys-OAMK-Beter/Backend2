@@ -38,5 +38,15 @@ namespace GroopySwoopyLogic
         {
             _Dataservice.Post(user);
         }
+
+        public int LoginUser(string email, string password)
+        {
+            UserDTO user = new();
+            user.Email = email;
+            user.Password = password;
+            user.Id = _Dataservice.LoginUser(user);
+
+            return (int)user.Id;
+        }
     }
 }

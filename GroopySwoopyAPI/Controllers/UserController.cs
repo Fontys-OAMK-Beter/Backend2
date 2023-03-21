@@ -3,6 +3,7 @@ using GroopySwoopyLogic;
 using GroopySwoopyDAL;
 using GroopySwoopyDTO;
 using GroopySwoopyInterfaces;
+using Microsoft.AspNetCore.Session;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,6 +13,12 @@ namespace GroopySwoopyAPI.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
+        private readonly UserService userService;
+        public UserController() {
+
+            userService = new UserService(new UserDataservice());
+        }
+
         // GET api/<UserController>/5
         [HttpGet("{id}")]
         public User Get(int id)
@@ -28,13 +35,11 @@ namespace GroopySwoopyAPI.Controllers
             //}
 
             //return users.ToArray();
-            UserService userService = new UserService(new UserDataservice());
             UserDTO dbUser = userService.GetUserByID(id);
 
 
             User user = new User(); 
             user.Name = dbUser.Name;
-            user.Id = dbUser.Id;
             user.Email = dbUser.Email;
             user.Password = dbUser.Password;
 
@@ -45,13 +50,12 @@ namespace GroopySwoopyAPI.Controllers
 
         // POST api/<UserController>
         [HttpPost]
-        public void Post(string name, string email, string password)
+        public void Post([FromBody] User _user)
         {
-            UserService userService = new UserService(new UserDataservice());
             UserDTO user = new UserDTO();
-            user.Name = name;
-            user.Email = email;
-            user.Password = password;
+            user.Name = _user.Name;
+            user.Email = _user.Email;
+            user.Password = _user.Password;
             userService.Post(user);
         }
 
@@ -65,6 +69,13 @@ namespace GroopySwoopyAPI.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+        }
+
+        [HttpGet("{email},{password}")]
+        public int Login(string email, string password)
+        {
+            int userID = (int)userService.LoginUser(email, password);
+            return userID;
         }
     }
 }
