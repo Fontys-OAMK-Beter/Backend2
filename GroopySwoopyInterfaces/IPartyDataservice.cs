@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace GroopySwoopyInterfaces
 {
-    public interface IGroupDataservice
+    public interface IPartyDataservice
     {
-        void Post(GroupDTO group);
+        void Post(PartyDTO party, int UserId);
     }
 }

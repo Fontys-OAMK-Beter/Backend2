@@ -10,7 +10,7 @@ namespace GroopySwoopyAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class GroupController : ControllerBase
+    public class PartyController : ControllerBase
     {
         // GET: api/<ValuesController>
         [HttpGet]
@@ -32,13 +32,13 @@ namespace GroopySwoopyAPI.Controllers
         }
 
         [HttpPost]
-        public void post(string title, string pictureUrl)
+        public void post(string title, string pictureUrl, int UserId)
         {
-            GroupService groupService = new GroupService(new GroupDataservice());
-            GroupDTO group = new GroupDTO();
-            group.Title = title;
-            group.PictureURL = pictureUrl;
-            groupService.Post(group);
+            PartyService partyService = new PartyService(new PartyDataservice());
+            PartyDTO party = new PartyDTO();
+            party.Title = title;
+            party.PictureURL = pictureUrl;
+            partyService.Post(party, UserId);
         }
 
         // DELETE api/<ValuesController>/5
