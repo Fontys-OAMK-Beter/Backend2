@@ -3,6 +3,7 @@ using GroopySwoopyLogic;
 using GroopySwoopyDAL;
 using GroopySwoopyDTO;
 using GroopySwoopyInterfaces;
+using Microsoft.AspNetCore.Session;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -39,7 +40,6 @@ namespace GroopySwoopyAPI.Controllers
 
             User user = new User(); 
             user.Name = dbUser.Name;
-            user.Id = dbUser.Id;
             user.Email = dbUser.Email;
             user.Password = dbUser.Password;
 
@@ -50,12 +50,12 @@ namespace GroopySwoopyAPI.Controllers
 
         // POST api/<UserController>
         [HttpPost]
-        public void Post(string name, string email, string password)
+        public void Post([FromBody] User _user)
         {
             UserDTO user = new UserDTO();
-            user.Name = name;
-            user.Email = email;
-            user.Password = password;
+            user.Name = _user.Name;
+            user.Email = _user.Email;
+            user.Password = _user.Password;
             userService.Post(user);
         }
 
@@ -74,7 +74,8 @@ namespace GroopySwoopyAPI.Controllers
         [HttpGet("{email},{password}")]
         public int Login(string email, string password)
         {
-            return (int)userService.LoginUser(email, password);
+            int userID = (int)userService.LoginUser(email, password);
+            return userID;
         }
     }
 }
