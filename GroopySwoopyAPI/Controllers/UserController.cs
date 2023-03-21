@@ -35,10 +35,17 @@ namespace GroopySwoopyAPI.Controllers
             //}
 
             //return users.ToArray();
+
+            User user = new User();
+
+            if (HttpContext.Session.GetString("SessionKey") == null)
+            {
+                HttpContext.Response.StatusCode = (int)System.Net.HttpStatusCode.Unauthorized;
+                return user;
+            }
+
             UserDTO dbUser = userService.GetUserByID(id);
 
-
-            User user = new User(); 
             user.Name = dbUser.Name;
             user.Email = dbUser.Email;
             user.Password = dbUser.Password;
@@ -71,10 +78,13 @@ namespace GroopySwoopyAPI.Controllers
         {
         }
 
-        [HttpGet("{email},{password}")]
-        public int Login(string email, string password)
+        [Route("login")]
+        [HttpPost]
+        public int Login([FromBody] User _user)
         {
-            int userID = (int)userService.LoginUser(email, password);
+            int userID = (int)userService.LoginUser(_user.Email, _user.Password);
+            //return userID;
+            HttpContext.Session.SetString("SessionKey", userID.ToString());
             return userID;
         }
     }
