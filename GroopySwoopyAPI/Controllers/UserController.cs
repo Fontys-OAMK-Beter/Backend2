@@ -99,5 +99,12 @@ namespace GroopySwoopyAPI.Controllers
             Guid SessionID = new Guid(HttpContext.Session.GetString("SessionID"));
             return userService.AuthorizeUser(SessionID);
         }
+
+        [Route("logout")]
+        [HttpPost]
+        public void Logout()
+        {
+            HttpContext.Session.Clear();
+        }
     }
 }
