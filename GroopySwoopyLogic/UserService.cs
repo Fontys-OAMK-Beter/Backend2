@@ -39,7 +39,7 @@ namespace GroopySwoopyLogic
             _Dataservice.Post(user);
         }
 
-        public Guid LoginUser(string email, string password)
+        public Guid? LoginUser(string email, string password)
         {
             UserDTO user = new UserDTO();
             user.Email = email;

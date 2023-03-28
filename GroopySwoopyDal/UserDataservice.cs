@@ -125,22 +125,23 @@ namespace GroopySwoopyDAL
                 }
         }
 
-        public Guid LoginUser(UserDTO user)
+        public Guid? LoginUser(UserDTO user)
         {
-            Guid SessionID = new Guid();
+            Guid SessionID = Guid.NewGuid();
             using (MySqlConnection con = DatabaseConnection.CreateConnection())
 
                 try
                 {
-                    using (MySqlCommand cmd = new MySqlCommand($"SELECT id FROM user WHERE email = @email AND password = @password", con))
+                    using (MySqlCommand cmd = new MySqlCommand($"UPDATE user SET session_id = @sessionID WHERE email = @email AND password = @password", con))
                     {
                         cmd.Parameters.AddWithValue("@email", user.Email);
                         cmd.Parameters.AddWithValue("@password", user.Password);
+                        cmd.Parameters.AddWithValue("@sessionID", SessionID);
 
                         con.Open();
                         var reader = cmd.ExecuteReader();
-                        var test = reader.Read();
-                        //SessionID = new Guid(reader.GetString(8));
+                        if (reader.RecordsAffected > 0)
+                            return SessionID;
                     }
 
 
@@ -154,7 +155,7 @@ namespace GroopySwoopyDAL
                 {
                     con.Close();
                 }
-            return SessionID;
+            return null;
         }
 
         public Boolean AuthorizeUser(Guid SessionID)

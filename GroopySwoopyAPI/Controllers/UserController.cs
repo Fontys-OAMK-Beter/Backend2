@@ -82,12 +82,20 @@ namespace GroopySwoopyAPI.Controllers
         [HttpPost]
         public void Login([FromBody] User _user)
         {
-            Guid SessionID = userService.LoginUser(_user.Email, _user.Password);
-            HttpContext.Session.SetString("SessionID", SessionID.ToString());
+            if (Authorize())
+                return;
+
+            Guid? SessionID = userService.LoginUser(_user.Email, _user.Password);
+
+            if (SessionID != null)
+                HttpContext.Session.SetString("SessionID", SessionID.ToString());
         }
 
         private Boolean Authorize()
         {
+            if (HttpContext.Session.Get("SessionID") == null)
+                return false;
+
             Guid SessionID = new Guid(HttpContext.Session.GetString("SessionID"));
             return userService.AuthorizeUser(SessionID);
         }
