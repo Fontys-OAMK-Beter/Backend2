@@ -125,23 +125,21 @@ namespace GroopySwoopyDAL
                 }
         }
 
-        public Guid? LoginUser(UserDTO user)
+        public int VerifyLoginCredentials(UserDTO user)
         {
-            Guid SessionID = Guid.NewGuid();
             using (MySqlConnection con = DatabaseConnection.CreateConnection())
 
                 try
                 {
-                    using (MySqlCommand cmd = new MySqlCommand($"UPDATE user SET session_id = @sessionID WHERE email = @email AND password = @password", con))
+                    using (MySqlCommand cmd = new MySqlCommand($"SELECT id FROM user WHERE email = @email AND password = @password", con))
                     {
                         cmd.Parameters.AddWithValue("@email", user.Email);
                         cmd.Parameters.AddWithValue("@password", user.Password);
-                        cmd.Parameters.AddWithValue("@sessionID", SessionID);
 
                         con.Open();
                         var reader = cmd.ExecuteReader();
-                        if (reader.RecordsAffected > 0)
-                            return SessionID;
+                        if (reader.Read())
+                            return reader.GetInt16(0);
                     }
 
 
@@ -155,18 +153,18 @@ namespace GroopySwoopyDAL
                 {
                     con.Close();
                 }
-            return null;
+            return -1;
         }
 
-        public Boolean AuthorizeUser(Guid SessionID)
+        public Boolean AuthorizeUser(string Token)
         {
             using (MySqlConnection con = DatabaseConnection.CreateConnection())
 
                 try
                 {
-                    using (MySqlCommand cmd = new MySqlCommand($"SELECT id FROM user WHERE session_id = @sessionID", con))
+                    using (MySqlCommand cmd = new MySqlCommand($"SELECT id FROM user WHERE auth_token = @token", con))
                     {
-                        cmd.Parameters.AddWithValue("@sessionID", SessionID.ToString());
+                        cmd.Parameters.AddWithValue("@token", Token);
 
                         con.Open();
                         var reader = cmd.ExecuteReader();
@@ -180,6 +178,37 @@ namespace GroopySwoopyDAL
                 {
                     Console.WriteLine(exception.ToString());
                     return false;
+                }
+                finally
+                {
+                    con.Close();
+                }
+            return false;
+        }
+
+        public Boolean SetAuthToken(int _userID, string _token)
+        {
+            using (MySqlConnection con = DatabaseConnection.CreateConnection())
+
+                try
+                {
+                    using (MySqlCommand cmd = new MySqlCommand($"UPDATE user SET auth_token = @token WHERE id = @userID", con))
+                    {
+                        cmd.Parameters.AddWithValue("@userID", _userID);
+                        cmd.Parameters.AddWithValue("@token", _token);
+
+                        con.Open();
+                        var reader = cmd.ExecuteReader();
+                        if (reader.RecordsAffected > 0)
+                            return true;
+                    }
+
+
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception.ToString());
+                    throw exception;
                 }
                 finally
                 {
