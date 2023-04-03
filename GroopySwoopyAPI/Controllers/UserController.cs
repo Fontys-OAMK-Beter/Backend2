@@ -56,8 +56,9 @@ namespace GroopySwoopyAPI.Controllers
         }
 
         // POST api/<UserController>
+        [Route("register")]
         [HttpPost]
-        public void Post([FromBody] User _user)
+        public void Register([FromBody] User _user)
         {
             UserDTO user = new UserDTO();
             user.Name = _user.Name;
