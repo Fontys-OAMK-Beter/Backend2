@@ -1,4 +1,5 @@
-﻿using GroopySwoopyDAL;
+﻿using GroopySwoopyAPI.Models;
+using GroopySwoopyDAL;
 using GroopySwoopyDTO;
 using GroopySwoopyLogic;
 using Microsoft.AspNetCore.Http;

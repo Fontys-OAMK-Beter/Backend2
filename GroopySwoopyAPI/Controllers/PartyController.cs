@@ -1,4 +1,5 @@
-﻿using GroopySwoopyDAL;
+﻿using GroopySwoopyAPI.Models;
+using GroopySwoopyDAL;
 using GroopySwoopyDTO;
 using GroopySwoopyLogic;
 using Microsoft.AspNetCore.Mvc;
@@ -41,10 +42,20 @@ namespace GroopySwoopyAPI.Controllers
             partyService.Post(party, UserId);
         }
 
+
+
         // DELETE api/<ValuesController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+        }
+
+        [HttpDelete("")]
+        public void RemoveUser(int UserId, int PartyId, [FromBody] Party partyModel) 
+        {
+            PartyService partyService = new PartyService(new PartyDataservice());
+            PartyDTO party = new PartyDTO();
+            partyService.RemoveUser(UserId, PartyId);
         }
     }
 }
