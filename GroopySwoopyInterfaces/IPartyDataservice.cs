@@ -10,5 +10,6 @@ namespace GroopySwoopyInterfaces
     public interface IPartyDataservice
     {
         void Post(PartyDTO party, int UserId);
+        void RemoveUser(int UserId, int PartyId);
     }
 }

@@ -1,4 +1,4 @@
-namespace GroopySwoopyAPI
+namespace GroopySwoopyAPI.Models
 {
     public class Event
     {

@@ -4,11 +4,15 @@ using GroopySwoopyDAL;
 using GroopySwoopyDTO;
 using GroopySwoopyInterfaces;
 using Microsoft.AspNetCore.Session;
+<<<<<<< HEAD
+using GroopySwoopyAPI.Models;
+=======
 using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http.Headers;
+>>>>>>> 7681ec74cae502cb10b1852392bacd59b1a39ad5
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 

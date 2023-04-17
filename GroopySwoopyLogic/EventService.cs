@@ -27,10 +27,12 @@ namespace GroopySwoopyLogic
         {
             return _Dataservice.GetSpecificGroupEvent(EventId, GroupId);
         }
+
         public void Post(EventDTO @event)
         {
             _Dataservice.Post(@event);
         }
+
         public void Delete(int EventId)
         {
             _Dataservice.Delete(EventId);

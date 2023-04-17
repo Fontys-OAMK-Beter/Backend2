@@ -36,5 +36,28 @@ namespace GroopySwoopyDAL
                     con.Close();
                 }
         }
+
+        public void RemoveUser(int UserId, int PartyId)
+        {
+            using (MySqlConnection con = DatabaseConnection.CreateConnection())
+
+                try
+                {
+                    con.Open();
+                    MySqlCommand cmd = new MySqlCommand("DELETE FROM Party WHERE id=@Id", con);
+                    cmd.Parameters.AddWithValue("@Id", UserId);
+                    cmd.ExecuteNonQuery();
+
+
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception.ToString());
+                }
+                finally
+                {
+                    con.Close();
+                }
+        }
     }
 }

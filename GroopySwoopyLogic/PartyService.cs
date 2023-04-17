@@ -22,5 +22,10 @@ namespace GroopySwoopyLogic
         {
             _Dataservice.Post(party, UserId);
         }
+
+        public void RemoveUser(int UserId, int PartyId)
+        {
+            _Dataservice.RemoveUser(UserId, PartyId);
+        }
     }
 }
