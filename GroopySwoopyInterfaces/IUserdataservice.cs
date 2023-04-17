@@ -12,7 +12,8 @@ namespace GroopySwoopyInterfaces
         List<UserDTO> GetAllUsers();
         UserDTO GetUserByID(int id);
         void Post(UserDTO user);
-        Guid? LoginUser(UserDTO user);
-        Boolean AuthorizeUser(Guid SessionID);
+        int VerifyLoginCredentials(UserDTO user);
+        Boolean AuthorizeUser(string Token);
+        Boolean SetAuthToken(int UserID, string Token);
     }
 }

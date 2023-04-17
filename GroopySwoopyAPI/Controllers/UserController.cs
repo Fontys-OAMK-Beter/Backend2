@@ -4,7 +4,15 @@ using GroopySwoopyDAL;
 using GroopySwoopyDTO;
 using GroopySwoopyInterfaces;
 using Microsoft.AspNetCore.Session;
+<<<<<<< HEAD
 using GroopySwoopyAPI.Models;
+=======
+using System.Security.Claims;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Net.Http.Headers;
+>>>>>>> 7681ec74cae502cb10b1852392bacd59b1a39ad5
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -87,26 +95,30 @@ namespace GroopySwoopyAPI.Controllers
             if (Authorize())
                 return;
 
-            Guid? SessionID = userService.LoginUser(_user.Email, _user.Password);
+            string Token = userService.LoginUser(_user.Email, _user.Password);
 
-            if (SessionID != null)
-                HttpContext.Session.SetString("SessionID", SessionID.ToString());
+            if (Token != null)
+                Response.Headers.Add("Authorization", "Bearer " + Token);
+            else
+                Response.StatusCode = new BadRequestResult().StatusCode;
         }
 
         private Boolean Authorize()
         {
-            if (HttpContext.Session.Get("SessionID") == null)
+            if (Request.Headers.Authorization.Count == 0)
                 return false;
 
-            Guid SessionID = new Guid(HttpContext.Session.GetString("SessionID"));
-            return userService.AuthorizeUser(SessionID);
+            if (userService.AuthorizeUser(Request.Headers.Authorization.First()))
+                return true;
+
+            return false;
         }
 
         [Route("logout")]
         [HttpPost]
         public void Logout()
         {
-            HttpContext.Session.Clear();
+            Response.Headers.Remove("Authorization");
         }
     }
 }
