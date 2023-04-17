@@ -42,6 +42,8 @@ namespace GroopySwoopyAPI.Controllers
             partyService.Post(party, UserId);
         }
 
+        
+
 
 
         // DELETE api/<ValuesController>/5
