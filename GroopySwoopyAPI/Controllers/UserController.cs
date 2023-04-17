@@ -89,21 +89,23 @@ namespace GroopySwoopyAPI.Controllers
         public void Login([FromBody] User _user)
         {
             if (Authorize())
-                return;
+                return; //Already logged in
 
             string Token = userService.LoginUser(_user.Email, _user.Password);
 
             if (Token != null)
-                Response.Headers.Add("Authorization", "Bearer " + Token);
+                Response.Headers.Add("Authorization", Token);
             else
                 Response.StatusCode = new BadRequestResult().StatusCode;
         }
 
         private Boolean Authorize()
         {
+            //No valid token
             if (Request.Headers.Authorization.Count == 0)
                 return false;
 
+            //Valid token
             if (userService.AuthorizeUser(Request.Headers.Authorization.First()))
                 return true;
 

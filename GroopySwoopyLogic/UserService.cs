@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Cryptography;
 
 namespace GroopySwoopyLogic
 {
@@ -50,7 +51,10 @@ namespace GroopySwoopyLogic
             user.Password = password;
             user.Id = _Dataservice.VerifyLoginCredentials(user);
 
-            string Token = CreateJWT(user);
+            if (user.Id < 0)
+                return null;
+            
+            string Token = GenerateJWT(user);
 
             if(_Dataservice.SetAuthToken((int)user.Id, Token))
                 return Token;
@@ -63,33 +67,78 @@ namespace GroopySwoopyLogic
             return _Dataservice.AuthorizeUser(Token);
         }
 
-        private string CreateJWT(UserDTO _user)
+        private string GenerateJWT(UserDTO _user)
         {
-            // Set the secret key for the JWT
-            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your_secret_key_here"));
+            var secretKey = GenerateSecretKey();
 
-            // Create the token descriptor
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    //new Claim(ClaimTypes.Name, "Mike"), //_user.Name),
-                    new Claim(ClaimTypes.Email, _user.Email)
+                    new Claim(ClaimTypes.Name, _user.Name),
+                    new Claim(ClaimTypes.Email, _user.Email),
+                    new Claim("kid", secretKey)
                 }),
-                Expires = DateTime.UtcNow.AddSeconds(30),
-                SigningCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256Signature)
+                Expires = DateTime.UtcNow.AddSeconds(30), //CHANGE IN PRODUCTION
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)), SecurityAlgorithms.HmacSha256Signature),
             };
 
-            // Create the JWT handler
             var jwtHandler = new JwtSecurityTokenHandler();
 
-            // Generate the JWT token
             var token = jwtHandler.CreateToken(tokenDescriptor);
 
-            // Get the JWT string
             var jwtString = jwtHandler.WriteToken(token);
 
-            return jwtString;
+            return "Bearer " + jwtString;
+        }
+
+        private string GenerateSecretKey()
+        {
+            var key = new byte[32];
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(key);
+            }
+
+            var secretKey = Convert.ToBase64String(key);
+
+            return secretKey;
+        }
+
+        private Boolean VerifyJWT(string _token)
+        {
+            // Get the JWT from the request headers or wherever it is stored
+            string token = _token;
+
+            // Define the validation parameters for the JWT
+            var validationParameters = new TokenValidationParameters
+            {
+                //ValidateIssuer = true,
+                //ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                //ValidIssuer = "your issuer here",
+                //ValidAudience = "your audience here",
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your secret key here"))
+            };
+
+            // Use the JwtSecurityTokenHandler to validate the JWT and extract its claims
+            var handler = new JwtSecurityTokenHandler();
+            ClaimsPrincipal principal;
+            try
+            {
+                principal = handler.ValidateToken(token, validationParameters, out var validatedToken);
+            }
+            catch (SecurityTokenException)
+            {
+                // Invalid token
+                return false;
+            }
+
+            // Extract the claims from the validated token
+            var claims = principal.Claims;
+
+            return true;
         }
     }
 }
