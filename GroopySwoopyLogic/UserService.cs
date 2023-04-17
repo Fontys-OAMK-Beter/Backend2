@@ -73,7 +73,7 @@ namespace GroopySwoopyLogic
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, "Mike"), //_user.Name),
+                    //new Claim(ClaimTypes.Name, "Mike"), //_user.Name),
                     new Claim(ClaimTypes.Email, _user.Email)
                 }),
                 Expires = DateTime.UtcNow.AddSeconds(30),

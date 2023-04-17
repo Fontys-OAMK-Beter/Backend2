@@ -8,6 +8,7 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net.Http.Headers;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -93,17 +94,17 @@ namespace GroopySwoopyAPI.Controllers
             string Token = userService.LoginUser(_user.Email, _user.Password);
 
             if (Token != null)
-                HttpContext.Response.Headers.Authorization = Token;
+                Response.Headers.Add("Authorization", "Bearer " + Token);
             else
-                HttpContext.Response.StatusCode = new BadRequestResult().StatusCode;
+                Response.StatusCode = new BadRequestResult().StatusCode;
         }
 
         private Boolean Authorize()
         {
-            if (HttpContext.Request.Headers.Authorization.Count == 0)
+            if (Request.Headers.Authorization.Count == 0)
                 return false;
 
-            if (userService.AuthorizeUser(HttpContext.Request.Headers.Authorization.First()))
+            if (userService.AuthorizeUser(Request.Headers.Authorization.First()))
                 return true;
 
             return false;
@@ -113,7 +114,7 @@ namespace GroopySwoopyAPI.Controllers
         [HttpPost]
         public void Logout()
         {
-            HttpContext.Session.Clear();
+            Response.Headers.Remove("Authorization");
         }
     }
 }
