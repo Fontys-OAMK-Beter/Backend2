@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using GroopySwoopyInterfaces;
 using GroopySwoopyDTO;
 using MySqlConnector;
+using System.Security.Cryptography.X509Certificates;
 
 namespace GroopySwoopyDAL
 {
@@ -125,24 +126,26 @@ namespace GroopySwoopyDAL
                 }
         }
 
-        public int VerifyLoginCredentials(UserDTO user)
+        public UserDTO VerifyLoginCredentials(UserDTO _user)
         {
             using (MySqlConnection con = DatabaseConnection.CreateConnection())
 
                 try
                 {
-                    using (MySqlCommand cmd = new MySqlCommand($"SELECT id FROM user WHERE email = @email AND password = @password", con))
+                    using (MySqlCommand cmd = new MySqlCommand($"SELECT (id, name) FROM user WHERE email = @email AND password = @password", con))
                     {
-                        cmd.Parameters.AddWithValue("@email", user.Email);
-                        cmd.Parameters.AddWithValue("@password", user.Password);
+                        cmd.Parameters.AddWithValue("@email", _user.Email);
+                        cmd.Parameters.AddWithValue("@password", _user.Password);
 
                         con.Open();
                         var reader = cmd.ExecuteReader();
-                        if (reader.Read())
-                            return reader.GetInt16(0);
+                        while (reader.Read()) {
+                            if (!reader.IsDBNull(0))
+                                _user.Id = reader.GetInt16(0);
+                            if (!reader.IsDBNull(1))
+                                _user.Name = reader.GetString(1);
+                        }
                     }
-
-
                 }
                 catch (Exception exception)
                 {
@@ -153,7 +156,7 @@ namespace GroopySwoopyDAL
                 {
                     con.Close();
                 }
-            return -1;
+            return _user;
         }
 
         public Boolean AuthorizeUser(string Token)

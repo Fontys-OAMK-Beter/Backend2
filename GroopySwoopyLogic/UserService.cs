@@ -49,7 +49,7 @@ namespace GroopySwoopyLogic
             UserDTO user = new UserDTO();
             user.Email = email;
             user.Password = password;
-            user.Id = _Dataservice.VerifyLoginCredentials(user);
+            user = _Dataservice.VerifyLoginCredentials(user);
 
             if (user.Id < 0)
                 return null;

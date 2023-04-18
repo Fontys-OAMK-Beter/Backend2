@@ -31,8 +31,9 @@ namespace GroopySwoopyDAL
             //string cs = $"Server={host};Uid={username};Pwd={password};Database={database}";
 
 
-            return "Server=studmysql01.fhict.local;Uid=dbi469729;Database=dbi469729;Pwd=test;";
-            //return cs;
+            //return "Server=studmysql01.fhict.local;Uid=dbi469729;Database=dbi469729;Pwd=test;";
+            return "Data Source=fontysgroopyswoopy.database.windows.net;Initial Catalog=groopyswoopydb;User ID=beheerder;Password=Testtest!";
+        //return cs;
         }
     }
 }
