@@ -29,7 +29,7 @@ namespace GroopySwoopyDAL
                 }
                 catch (Exception exception)
                 {
-                    Console.WriteLine(exception.ToString()); 
+                    Console.WriteLine(exception.ToString());
                 }
                 finally
                 {
@@ -44,11 +44,62 @@ namespace GroopySwoopyDAL
                 try
                 {
                     con.Open();
-                    MySqlCommand cmd = new MySqlCommand("DELETE FROM Party WHERE id=@Id", con);
+                    MySqlCommand cmd = new MySqlCommand("DELETE FROM partyuser WHERE id=@Id", con);
                     cmd.Parameters.AddWithValue("@Id", UserId);
                     cmd.ExecuteNonQuery();
 
 
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception.ToString());
+                }
+                finally
+                {
+                    con.Close();
+                }
+        }
+
+        public void AddUser(int UserId, int PartyId)
+        {
+            using (MySqlConnection con = DatabaseConnection.CreateConnection())
+
+                try
+                {
+                    con.Open();
+                    using (MySqlCommand cmd = new MySqlCommand("INSERT INTO partyuser(user_id,party_Id) VALUES(@user_id,@party_Id)", con))
+                    {
+                        cmd.Parameters.AddWithValue("@user_id", UserId);
+                        cmd.Parameters.AddWithValue("@party_Id", PartyId);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception.ToString());
+                }
+                finally
+                {
+                    con.Close();
+                }
+        }
+
+
+        public void PromoteUser(int UserId, int PartyId)
+        {
+            using (MySqlConnection con = DatabaseConnection.CreateConnection())
+
+                try
+                {
+                    con.Open();
+                    using (MySqlCommand cmd = new MySqlCommand("UPDATE (user_id,party_Id) VALUES(@user_id,@party_Id)", con))
+                    {
+                        cmd.Parameters.AddWithValue("@user_id", UserId);
+                        cmd.Parameters.AddWithValue("@party_Id", PartyId);
+
+                        cmd.ExecuteNonQuery();
+                    }
                 }
                 catch (Exception exception)
                 {
