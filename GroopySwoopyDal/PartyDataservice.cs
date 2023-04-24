@@ -111,5 +111,39 @@ namespace GroopySwoopyDAL
                     con.Close();
                 }
         }
+
+        public PartyDTO GetParty(int PartyId)
+        {
+            PartyDTO party = new PartyDTO();
+
+            using (SqlConnection con = DatabaseConnection.CreateConnection())
+
+                try
+                {
+                    using (SqlCommand cmd = new SqlCommand("SELECT * FROM party", con))
+                    {
+                        con.Open();
+                        var reader = cmd.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            party.Id = reader.GetInt32(0);
+                            party.PictureURL= reader.GetString(1);
+                            party.Title = reader.GetString(2);
+                        }
+                    }
+
+
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception.ToString());
+                    return null;
+                }
+                finally
+                {
+                    con.Close();
+                }
+            return party;
+        }
     }
 }
