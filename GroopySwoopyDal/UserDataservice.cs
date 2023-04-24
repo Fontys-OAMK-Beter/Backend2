@@ -22,7 +22,7 @@ namespace GroopySwoopyDAL
 
             try
             {
-                    using (SqlCommand cmd = new SqlCommand("SELECT * FROM user", con))
+                    using (SqlCommand cmd = new SqlCommand("SELECT * FROM [user]", con))
                     {
                         con.Open();
                         var reader = cmd.ExecuteReader();
@@ -62,7 +62,7 @@ namespace GroopySwoopyDAL
 
                 try
                 {
-                    using (SqlCommand cmd = new SqlCommand("SELECT * FROM user WHERE id = "+id, con))
+                    using (SqlCommand cmd = new SqlCommand("SELECT * FROM [user] WHERE id = "+id, con))
                     {
                         con.Open();
                         var reader = cmd.ExecuteReader();
@@ -130,7 +130,7 @@ namespace GroopySwoopyDAL
 
                 try
                 {
-                    using (SqlCommand cmd = new SqlCommand($"SELECT (id, name) FROM [user] WHERE email = @email AND password = @password", con))
+                    using (SqlCommand cmd = new SqlCommand($"SELECT id, name FROM [user] WHERE email = @email AND password = @password", con))
                     {
                         cmd.Parameters.AddWithValue("@email", _user.Email);
                         cmd.Parameters.AddWithValue("@password", _user.Password);
@@ -139,7 +139,7 @@ namespace GroopySwoopyDAL
                         var reader = cmd.ExecuteReader();
                         while (reader.Read()) {
                             if (!reader.IsDBNull(0))
-                                _user.Id = reader.GetInt16(0);
+                                _user.Id = reader.GetInt32(0);
                             if (!reader.IsDBNull(1))
                                 _user.Name = reader.GetString(1);
                         }
@@ -163,7 +163,7 @@ namespace GroopySwoopyDAL
 
                 try
                 {
-                    using (SqlCommand cmd = new SqlCommand($"SELECT id FROM user WHERE auth_token = @token", con))
+                    using (SqlCommand cmd = new SqlCommand($"SELECT id FROM [user] WHERE auth_token = @token", con))
                     {
                         cmd.Parameters.AddWithValue("@token", Token);
 
@@ -193,7 +193,7 @@ namespace GroopySwoopyDAL
 
                 try
                 {
-                    using (SqlCommand cmd = new SqlCommand($"UPDATE user SET auth_token = @token WHERE id = @userID", con))
+                    using (SqlCommand cmd = new SqlCommand($"UPDATE [user] SET auth_token = @token WHERE id = @userID", con))
                     {
                         cmd.Parameters.AddWithValue("@userID", _userID);
                         cmd.Parameters.AddWithValue("@token", _token);

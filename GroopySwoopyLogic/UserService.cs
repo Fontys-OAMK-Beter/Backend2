@@ -69,7 +69,7 @@ namespace GroopySwoopyLogic
 
         private string GenerateJWT(UserDTO _user)
         {
-            var secretKey = GenerateSecretKey();
+            const string secretKey = "J5h@3qLdP#vRzK9X!cF#2h6%1b$yE@7a";
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
@@ -115,11 +115,11 @@ namespace GroopySwoopyLogic
             {
                 //ValidateIssuer = true,
                 //ValidateAudience = true,
-                ValidateLifetime = true,
+                ValidateLifetime = false,
                 ValidateIssuerSigningKey = true,
                 //ValidIssuer = "your issuer here",
                 //ValidAudience = "your audience here",
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your secret key here"))
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("J5h@3qLdP#vRzK9X!cF#2h6%1b$yE@7a"))
             };
 
             // Use the JwtSecurityTokenHandler to validate the JWT and extract its claims
