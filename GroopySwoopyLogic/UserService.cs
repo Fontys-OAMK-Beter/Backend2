@@ -74,26 +74,6 @@ namespace GroopySwoopyLogic
         {
             var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("J5h@3qLdP#vRzK9X!cF#2h6%1b$yE@7a"));
 
-            //var tokenDescriptor = new SecurityTokenDescriptor
-            //{
-            //    Subject = new ClaimsIdentity(new Claim[]
-            //    {
-            //        new Claim(ClaimTypes.Name, _user.Name),
-            //        new Claim(ClaimTypes.Email, _user.Email),
-            //        new Claim("kid", secretKey)
-            //    }),
-            //    Expires = DateTime.UtcNow.AddSeconds(30), //CHANGE IN PRODUCTION
-            //    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)), SecurityAlgorithms.HmacSha256Signature),
-            //};
-
-            //var jwtHandler = new JwtSecurityTokenHandler();
-
-            //var token = jwtHandler.CreateToken(tokenDescriptor);
-
-            //var jwtString = jwtHandler.WriteToken(token);
-
-            //return "Bearer " + jwtString;
-
             var claims = new[]
             {
                 new Claim(ClaimTypes.Name, _user.Name),
@@ -109,7 +89,7 @@ namespace GroopySwoopyLogic
                 issuer: "GroopySwoopy",
                 audience: "GroopyGang",
                 claims: claims,
-                expires: DateTime.UtcNow.AddSeconds(30),
+                expires: DateTime.Now.AddSeconds(30),
                 signingCredentials: signingCredentials);
 
             // create a JWT token handler and write the token to a string
@@ -141,10 +121,11 @@ namespace GroopySwoopyLogic
             {
                 ValidateIssuer = false,
                 ValidateAudience = false,
-                ValidateLifetime = false,
+                ValidateLifetime = true,
                 ValidateIssuerSigningKey = true,
                 //ValidIssuer = "your issuer here",
                 //ValidAudience = "your audience here",
+                RequireExpirationTime = true,
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("J5h@3qLdP#vRzK9X!cF#2h6%1b$yE@7a"))
             };
 
@@ -164,7 +145,17 @@ namespace GroopySwoopyLogic
             // Extract the claims from the validated token
             var claims = principal.Claims;
 
-            return true;
+            JwtSecurityToken jwtSecurityToken;
+            try
+            {
+                jwtSecurityToken = new JwtSecurityToken(token);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            return jwtSecurityToken.ValidTo > DateTime.UtcNow;
         }
     }
 }
