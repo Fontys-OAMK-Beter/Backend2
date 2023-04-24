@@ -32,7 +32,7 @@ namespace GroopySwoopyDAL
 
 
             //return "Server=studmysql01.fhict.local;Uid=dbi469729;Database=dbi469729;Pwd=test;";
-            return "Data Source=fontysgroopyswoopy.database.windows.net;Initial Catalog=groopyswoopydb;User ID=beheerder;Password=Testtest!";
+            return "Server=tcp:fontysgroopyswoopy.database.windows.net,1433;Initial Catalog=groopyswoopydb;Persist Security Info=False;User ID=beheerder;Password={Testtest!};Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
         //return cs;
         }
     }
