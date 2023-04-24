@@ -5,8 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using GroopySwoopyInterfaces;
 using GroopySwoopyDTO;
-using MySqlConnector;
 using System.Security.Cryptography.X509Certificates;
+using Microsoft.Data.SqlClient;
 
 namespace GroopySwoopyDAL
 {
@@ -18,11 +18,11 @@ namespace GroopySwoopyDAL
 
             List<UserDTO> users = new List<UserDTO>();
 
-            using (MySqlConnection con = DatabaseConnection.CreateConnection())
+            using (SqlConnection con = DatabaseConnection.CreateConnection())
 
             try
             {
-                    using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM user", con))
+                    using (SqlCommand cmd = new SqlCommand("SELECT * FROM user", con))
                     {
                         con.Open();
                         var reader = cmd.ExecuteReader();
@@ -58,11 +58,11 @@ namespace GroopySwoopyDAL
         public UserDTO GetUserByID(int id)
         {
             UserDTO user = new UserDTO();
-            using (MySqlConnection con = DatabaseConnection.CreateConnection())
+            using (SqlConnection con = DatabaseConnection.CreateConnection())
 
                 try
                 {
-                    using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM user WHERE id = "+id, con))
+                    using (SqlCommand cmd = new SqlCommand("SELECT * FROM user WHERE id = "+id, con))
                     {
                         con.Open();
                         var reader = cmd.ExecuteReader();
@@ -98,14 +98,12 @@ namespace GroopySwoopyDAL
 
         public void Post(UserDTO user)
         {
-            using (MySqlConnection con = DatabaseConnection.CreateConnection())
+            using (SqlConnection con = DatabaseConnection.CreateConnection())
 
                 try
-                {
-                    using (MySqlCommand cmd = new MySqlCommand("INSERT INTO user (id, name, password, email) VALUES (@id, @name, @password, @email)", con))
+                 {
+                    using (SqlCommand cmd = new SqlCommand("INSERT INTO [user] (name, password, email) VALUES (@name, @password, @email)", con))
                     {
-
-                        cmd.Parameters.AddWithValue("@id", user.Id);
                         cmd.Parameters.AddWithValue("@name", user.Name);
                         cmd.Parameters.AddWithValue("@password", user.Password);
                         cmd.Parameters.AddWithValue("@email", user.Email);
@@ -128,11 +126,11 @@ namespace GroopySwoopyDAL
 
         public UserDTO VerifyLoginCredentials(UserDTO _user)
         {
-            using (MySqlConnection con = DatabaseConnection.CreateConnection())
+            using (SqlConnection con = DatabaseConnection.CreateConnection())
 
                 try
                 {
-                    using (MySqlCommand cmd = new MySqlCommand($"SELECT (id, name) FROM user WHERE email = @email AND password = @password", con))
+                    using (SqlCommand cmd = new SqlCommand($"SELECT (id, name) FROM user WHERE email = @email AND password = @password", con))
                     {
                         cmd.Parameters.AddWithValue("@email", _user.Email);
                         cmd.Parameters.AddWithValue("@password", _user.Password);
@@ -161,11 +159,11 @@ namespace GroopySwoopyDAL
 
         public Boolean AuthorizeUser(string Token)
         {
-            using (MySqlConnection con = DatabaseConnection.CreateConnection())
+            using (SqlConnection con = DatabaseConnection.CreateConnection())
 
                 try
                 {
-                    using (MySqlCommand cmd = new MySqlCommand($"SELECT id FROM user WHERE auth_token = @token", con))
+                    using (SqlCommand cmd = new SqlCommand($"SELECT id FROM user WHERE auth_token = @token", con))
                     {
                         cmd.Parameters.AddWithValue("@token", Token);
 
@@ -191,11 +189,11 @@ namespace GroopySwoopyDAL
 
         public Boolean SetAuthToken(int _userID, string _token)
         {
-            using (MySqlConnection con = DatabaseConnection.CreateConnection())
+            using (SqlConnection con = DatabaseConnection.CreateConnection())
 
                 try
                 {
-                    using (MySqlCommand cmd = new MySqlCommand($"UPDATE user SET auth_token = @token WHERE id = @userID", con))
+                    using (SqlCommand cmd = new SqlCommand($"UPDATE user SET auth_token = @token WHERE id = @userID", con))
                     {
                         cmd.Parameters.AddWithValue("@userID", _userID);
                         cmd.Parameters.AddWithValue("@token", _token);

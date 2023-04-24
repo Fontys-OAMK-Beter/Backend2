@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MySqlConnector;
+using Microsoft.Data.SqlClient;
 
 namespace GroopySwoopyDAL
 {
     internal static class DatabaseConnection
     {
-        public static MySqlConnection CreateConnection()
+        public static SqlConnection CreateConnection()
         {
-            MySqlConnection connection = new MySqlConnection(GetConnectionString());
+            SqlConnection connection = new SqlConnection(GetConnectionString());
 
             return connection;
         }
@@ -32,7 +32,7 @@ namespace GroopySwoopyDAL
 
 
             //return "Server=studmysql01.fhict.local;Uid=dbi469729;Database=dbi469729;Pwd=test;";
-            return "Data Source=fontysgroopyswoopy.database.windows.net;Initial Catalog=groopyswoopydb;User ID=beheerder;Password=Testtest!";
+            return "Data Source=fontysgroopyswoopy.database.windows.net;Initial Catalog=groopyswoopydb;User ID=beheerder;Password=Testtest!;Connect Timeout=60;Encrypt=True;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
         //return cs;
         }
     }

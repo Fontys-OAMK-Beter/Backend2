@@ -1,6 +1,6 @@
 ﻿using GroopySwoopyDTO;
 using GroopySwoopyInterfaces;
-using MySqlConnector;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,12 +13,12 @@ namespace GroopySwoopyDAL
     {
         public void Delete(int id)
         {
-            using (MySqlConnection con = DatabaseConnection.CreateConnection())
+            using (SqlConnection con = DatabaseConnection.CreateConnection())
 
                 try
                 {
                     con.Open();
-                    MySqlCommand cmd = new MySqlCommand("DELETE FROM event WHERE id=@Id", con);
+                    SqlCommand cmd = new SqlCommand("DELETE FROM event WHERE id=@Id", con);
                     cmd.Parameters.AddWithValue("@Id", id);
                     cmd.ExecuteNonQuery();
 
@@ -38,11 +38,11 @@ namespace GroopySwoopyDAL
         {
             List<EventDTO> events = new List<EventDTO>();
 
-            using (MySqlConnection con = DatabaseConnection.CreateConnection())
+            using (SqlConnection con = DatabaseConnection.CreateConnection())
 
                 try
                 {
-                    using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM event WHERE group_id = " + id, con))
+                    using (SqlCommand cmd = new SqlCommand("SELECT * FROM event WHERE group_id = " + id, con))
                     {
                         con.Open();
                         var reader = cmd.ExecuteReader();
@@ -80,10 +80,10 @@ namespace GroopySwoopyDAL
         public EventDTO GetSpecificGroupEvent(int EventId, int GroupId)
         {
             EventDTO @event = new EventDTO();
-            using (MySqlConnection con = DatabaseConnection.CreateConnection())
+            using (SqlConnection con = DatabaseConnection.CreateConnection())
                 try
                 {
-                    using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM event WHERE (party_id = @party_id AND id = @id)", con))
+                    using (SqlCommand cmd = new SqlCommand("SELECT * FROM event WHERE (party_id = @party_id AND id = @id)", con))
                     {
                         cmd.Parameters.AddWithValue("@id", EventId);
                         cmd.Parameters.AddWithValue("@group_id", GroupId);
@@ -126,12 +126,12 @@ namespace GroopySwoopyDAL
 
         public void Post(EventDTO eventDTO)
         {
-            using (MySqlConnection con = DatabaseConnection.CreateConnection())
+            using (SqlConnection con = DatabaseConnection.CreateConnection())
 
                 try
                 {
                     con.Open();
-                    using (MySqlCommand cmd = new MySqlCommand("INSERT INTO event(start_time, Description,Title,party_id,picture_url) VALUES(@start_time, @Description,@Title,@party_id, @picture_url)", con))
+                    using (SqlCommand cmd = new SqlCommand("INSERT INTO event(start_time, Description,Title,party_id,picture_url) VALUES(@start_time, @Description,@Title,@party_id, @picture_url)", con))
                     {
                         cmd.Parameters.AddWithValue("@start_time", DateTime.Now);
                         cmd.Parameters.AddWithValue("@Description", eventDTO.Description);
