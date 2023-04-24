@@ -130,7 +130,7 @@ namespace GroopySwoopyDAL
 
                 try
                 {
-                    using (SqlCommand cmd = new SqlCommand($"SELECT (id, name) FROM user WHERE email = @email AND password = @password", con))
+                    using (SqlCommand cmd = new SqlCommand($"SELECT (id, name) FROM [user] WHERE email = @email AND password = @password", con))
                     {
                         cmd.Parameters.AddWithValue("@email", _user.Email);
                         cmd.Parameters.AddWithValue("@password", _user.Password);
