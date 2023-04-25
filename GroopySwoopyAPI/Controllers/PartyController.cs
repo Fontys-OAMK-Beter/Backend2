@@ -13,11 +13,17 @@ namespace GroopySwoopyAPI.Controllers
     [ApiController]
     public class PartyController : ControllerBase
     {
+        //void PromoteUser(int UserId, int PartyId);
+        //PartyDTO GetParty(int PartyId);
+
+
         // GET: api/<ValuesController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public PartyDTO GetParty(int PartyId)
         {
-            return new string[] { "value1", "value2" };
+            PartyService partyService = new PartyService(new PartyDataservice());
+            PartyDTO partyDTO = partyService.GetParty(PartyId);
+            return partyDTO;
         }
 
         // GET api/<ValuesController>/5
@@ -58,6 +64,13 @@ namespace GroopySwoopyAPI.Controllers
             PartyService partyService = new PartyService(new PartyDataservice());
             PartyDTO party = new PartyDTO();
             partyService.RemoveUser(UserId, PartyId);
+        }
+
+        [HttpPost("")]
+        public void AddUser(int UserId, int PartyId, [FromBody] Party partyModel)
+        {
+            PartyService partyService = new PartyService(new PartyDataservice());
+            partyService.AddUser(UserId, PartyId);
         }
     }
 }
