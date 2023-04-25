@@ -64,32 +64,38 @@ namespace GroopySwoopyLogic
 
         public Boolean AuthorizeUser(string Token)
         {
-            return _Dataservice.AuthorizeUser(Token);
+            if(VerifyJWT(Token))
+                return _Dataservice.AuthorizeUser(Token);
+
+            return false;
         }
 
         private string GenerateJWT(UserDTO _user)
         {
-            var secretKey = GenerateSecretKey();
+            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("J5h@3qLdP#vRzK9X!cF#2h6%1b$yE@7a"));
 
-            var tokenDescriptor = new SecurityTokenDescriptor
+            var claims = new[]
             {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Name, _user.Name),
-                    new Claim(ClaimTypes.Email, _user.Email),
-                    new Claim("kid", secretKey)
-                }),
-                Expires = DateTime.UtcNow.AddSeconds(30), //CHANGE IN PRODUCTION
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)), SecurityAlgorithms.HmacSha256Signature),
+                new Claim(ClaimTypes.Name, _user.Name),
+                new Claim(ClaimTypes.Email, _user.Name),
+                new Claim(ClaimTypes.UserData, _user.Id.ToString()),
             };
 
-            var jwtHandler = new JwtSecurityTokenHandler();
+            // create a signing key using the secret key and the HMACSHA256 algorithm
+            var signingCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256Signature);
 
-            var token = jwtHandler.CreateToken(tokenDescriptor);
+            // create the JWT token
+            var token = new JwtSecurityToken(
+                issuer: "GroopySwoopy",
+                audience: "GroopyGang",
+                claims: claims,
+                expires: DateTime.Now.AddSeconds(30),
+                signingCredentials: signingCredentials);
 
-            var jwtString = jwtHandler.WriteToken(token);
-
-            return "Bearer " + jwtString;
+            // create a JWT token handler and write the token to a string
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var tokenString = tokenHandler.WriteToken(token);
+            return "Bearer " + tokenString;
         }
 
         private string GenerateSecretKey()
@@ -108,18 +114,19 @@ namespace GroopySwoopyLogic
         private Boolean VerifyJWT(string _token)
         {
             // Get the JWT from the request headers or wherever it is stored
-            string token = _token;
+            string token = _token.Remove(0,7);
 
             // Define the validation parameters for the JWT
             var validationParameters = new TokenValidationParameters
             {
-                //ValidateIssuer = true,
-                //ValidateAudience = true,
+                ValidateIssuer = false,
+                ValidateAudience = false,
                 ValidateLifetime = true,
                 ValidateIssuerSigningKey = true,
                 //ValidIssuer = "your issuer here",
                 //ValidAudience = "your audience here",
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your secret key here"))
+                RequireExpirationTime = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("J5h@3qLdP#vRzK9X!cF#2h6%1b$yE@7a"))
             };
 
             // Use the JwtSecurityTokenHandler to validate the JWT and extract its claims
@@ -138,7 +145,17 @@ namespace GroopySwoopyLogic
             // Extract the claims from the validated token
             var claims = principal.Claims;
 
-            return true;
+            JwtSecurityToken jwtSecurityToken;
+            try
+            {
+                jwtSecurityToken = new JwtSecurityToken(token);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            return jwtSecurityToken.ValidTo > DateTime.UtcNow;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using GroopySwoopyDTO;
 using GroopySwoopyInterfaces;
+using Microsoft.Data.SqlClient;
 using MySqlConnector;
 using System;
 using System.Collections.Generic;
@@ -14,12 +15,12 @@ namespace GroopySwoopyDAL
     {
         public void Post(PartyDTO party, int UserId)
         {
-            using (MySqlConnection con = DatabaseConnection.CreateConnection())
+            using (SqlConnection con = DatabaseConnection.CreateConnection())
 
                 try
                 {
                     con.Open();
-                    using (MySqlCommand cmd = new MySqlCommand("INSERT INTO party(title,picture_url) VALUES(@title,@picture_url)", con))
+                    using (SqlCommand cmd = new SqlCommand("INSERT INTO party(title,picture_url) VALUES(@title,@picture_url)", con))
                     {
                         cmd.Parameters.AddWithValue("@title", party.Title);
                         cmd.Parameters.AddWithValue("@picture_url", party.PictureURL);
@@ -39,12 +40,12 @@ namespace GroopySwoopyDAL
 
         public void RemoveUser(int UserId, int PartyId)
         {
-            using (MySqlConnection con = DatabaseConnection.CreateConnection())
+            using (SqlConnection con = DatabaseConnection.CreateConnection())
 
                 try
                 {
                     con.Open();
-                    MySqlCommand cmd = new MySqlCommand("DELETE FROM partyuser WHERE id=@Id", con);
+                    SqlCommand cmd = new SqlCommand("DELETE FROM partyuser WHERE id=@Id", con);
                     cmd.Parameters.AddWithValue("@Id", UserId);
                     cmd.ExecuteNonQuery();
 
@@ -62,12 +63,12 @@ namespace GroopySwoopyDAL
 
         public void AddUser(int UserId, int PartyId)
         {
-            using (MySqlConnection con = DatabaseConnection.CreateConnection())
+            using (SqlConnection con = DatabaseConnection.CreateConnection())
 
                 try
                 {
                     con.Open();
-                    using (MySqlCommand cmd = new MySqlCommand("INSERT INTO partyuser(user_id,party_Id) VALUES(@user_id,@party_Id)", con))
+                    using (SqlCommand cmd = new SqlCommand("INSERT INTO partyuser(user_id,party_Id) VALUES(@user_id,@party_Id)", con))
                     {
                         cmd.Parameters.AddWithValue("@user_id", UserId);
                         cmd.Parameters.AddWithValue("@party_Id", PartyId);
@@ -88,12 +89,12 @@ namespace GroopySwoopyDAL
 
         public void PromoteUser(int UserId, int PartyId)
         {
-            using (MySqlConnection con = DatabaseConnection.CreateConnection())
+            using (SqlConnection con = DatabaseConnection.CreateConnection())
 
                 try
                 {
                     con.Open();
-                    using (MySqlCommand cmd = new MySqlCommand("UPDATE (user_id,party_Id) VALUES(@user_id,@party_Id)", con))
+                    using (SqlCommand cmd = new SqlCommand("UPDATE (user_id,party_Id) VALUES(@user_id,@party_Id)", con))
                     {
                         cmd.Parameters.AddWithValue("@user_id", UserId);
                         cmd.Parameters.AddWithValue("@party_Id", PartyId);
@@ -109,6 +110,40 @@ namespace GroopySwoopyDAL
                 {
                     con.Close();
                 }
+        }
+
+        public PartyDTO GetParty(int PartyId)
+        {
+            PartyDTO party = new PartyDTO();
+
+            using (SqlConnection con = DatabaseConnection.CreateConnection())
+
+                try
+                {
+                    using (SqlCommand cmd = new SqlCommand("SELECT * FROM party", con))
+                    {
+                        con.Open();
+                        var reader = cmd.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            party.Id = reader.GetInt32(0);
+                            party.PictureURL= reader.GetString(1);
+                            party.Title = reader.GetString(2);
+                        }
+                    }
+
+
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception.ToString());
+                    return null;
+                }
+                finally
+                {
+                    con.Close();
+                }
+            return party;
         }
     }
 }
