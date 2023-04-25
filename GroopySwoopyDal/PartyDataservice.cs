@@ -120,8 +120,9 @@ namespace GroopySwoopyDAL
 
                 try
                 {
-                    using (SqlCommand cmd = new SqlCommand("SELECT * FROM party", con))
+                    using (SqlCommand cmd = new SqlCommand("SELECT * FROM party WHERE id = @party_id", con))
                     {
+                        cmd.Parameters.AddWithValue("@party_id", PartyId);
                         con.Open();
                         var reader = cmd.ExecuteReader();
                         while (reader.Read())
