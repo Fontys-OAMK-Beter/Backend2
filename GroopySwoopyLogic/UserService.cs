@@ -44,6 +44,11 @@ namespace GroopySwoopyLogic
             _Dataservice.Post(user);
         }
 
+        public List<PartyDTO> GetPartiesByUserId(int id)
+        {
+            return _Dataservice.GetPartiesByUserId(id);
+        }
+
         public string LoginUser(string email, string password)
         {
             UserDTO user = new UserDTO();
@@ -77,7 +82,7 @@ namespace GroopySwoopyLogic
             var claims = new[]
             {
                 new Claim(ClaimTypes.Name, _user.Name),
-                new Claim(ClaimTypes.Email, _user.Name),
+                new Claim(ClaimTypes.Email, _user.Email),
                 new Claim(ClaimTypes.UserData, _user.Id.ToString()),
             };
 

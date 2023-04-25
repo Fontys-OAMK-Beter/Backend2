@@ -217,6 +217,44 @@ namespace GroopySwoopyDAL
                 }
             return false;
         }
+
+
+        public List<PartyDTO> GetPartiesByUserId(int UserId)
+        {
+            List<PartyDTO> party = new List<PartyDTO>();
+
+            using (SqlConnection con = DatabaseConnection.CreateConnection())
+
+                try
+                {
+                    using (SqlCommand cmd = new SqlCommand("SELECT id, picture_url, title FROM [party] WHERE id = (SELECT party_id FROM [partyuser] WHERE user_id = @user_id)", con))
+                    //using (SqlCommand cmd = new SqlCommand("SELECT party_id FROM [partyuser] WHERE user_id = @user_id", con))
+                    {
+                        cmd.Parameters.AddWithValue("@user_id", UserId);
+                        con.Open();
+                        var reader = cmd.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            party.Add(new PartyDTO());
+                            party.LastOrDefault().Id = reader.GetInt32(0);
+                            party.LastOrDefault().PictureURL = reader.GetString(1);
+                            party.LastOrDefault().Title = reader.GetString(2);
+                        }
+                    }
+
+
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception.ToString());
+                    return null;
+                }
+                finally
+                {
+                    con.Close();
+                }
+            return party;
+        }
     }
 }
 

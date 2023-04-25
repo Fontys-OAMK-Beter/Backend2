@@ -61,6 +61,32 @@ namespace GroopySwoopyAPI.Controllers
 
         }
 
+        [HttpGet("{id}/parties")]
+        public List<Party> GetPartiesByUserId(int id)
+        {
+            List<Party> parties = new List<Party>();
+
+            //if (!Authorize())
+            //{
+            //    HttpContext.Response.StatusCode = (int)System.Net.HttpStatusCode.Unauthorized;
+            //    return user;
+            //}
+
+            List<PartyDTO> partiesDTO = userService.GetPartiesByUserId(id);
+
+            foreach (var partyDTO in partiesDTO)
+            {
+                parties.Add(new Party());
+                parties.LastOrDefault().Id = partyDTO.Id;
+                parties.LastOrDefault().PictureURL = partyDTO.PictureURL;
+                parties.LastOrDefault().Title = partyDTO.Title;
+            }
+
+            return parties;
+
+
+        }
+
         // POST api/<UserController>
         [Route("register")]
         [HttpPost]

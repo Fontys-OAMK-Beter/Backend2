@@ -11,6 +11,7 @@ namespace GroopySwoopyInterfaces
     {
         List<UserDTO> GetAllUsers();
         UserDTO GetUserByID(int id);
+        List<PartyDTO> GetPartiesByUserId(int id);
         void Post(UserDTO user);
         UserDTO VerifyLoginCredentials(UserDTO user);
         Boolean AuthorizeUser(string Token);
