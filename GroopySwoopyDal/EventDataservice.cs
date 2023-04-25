@@ -21,8 +21,6 @@ namespace GroopySwoopyDAL
                     SqlCommand cmd = new SqlCommand("DELETE FROM event WHERE id=@Id", con);
                     cmd.Parameters.AddWithValue("@Id", id);
                     cmd.ExecuteNonQuery();
-
-
                 }
                 catch (Exception exception)
                 {
