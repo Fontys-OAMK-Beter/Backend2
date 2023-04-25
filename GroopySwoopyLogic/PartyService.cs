@@ -36,9 +36,9 @@ namespace GroopySwoopyLogic
         {
             _Dataservice.RemoveUser(UserId, PartyId);
         }
-        public PartyDTO GetParty(int PartyId)
+        public PartyDTO GetPartyById(int PartyId)
         {
-            return _Dataservice.GetParty(PartyId);
+            return _Dataservice.GetPartyById(PartyId);
         }
     }
 }

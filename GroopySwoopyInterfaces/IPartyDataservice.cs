@@ -13,6 +13,6 @@ namespace GroopySwoopyInterfaces
         void RemoveUser(int UserId, int PartyId);
         void AddUser(int UserId, int PartyId);
         void PromoteUser(int UserId, int PartyId);
-        PartyDTO GetParty(int PartyId);
+        PartyDTO GetPartyById(int PartyId);
     }
 }

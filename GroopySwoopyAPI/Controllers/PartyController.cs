@@ -18,19 +18,12 @@ namespace GroopySwoopyAPI.Controllers
 
 
         // GET: api/<ValuesController>
-        [HttpGet]
-        public PartyDTO GetParty(int PartyId)
+        [HttpGet("{id}")]
+        public PartyDTO GetPartyById(int PartyId)
         {
             PartyService partyService = new PartyService(new PartyDataservice());
-            PartyDTO partyDTO = partyService.GetParty(PartyId);
+            PartyDTO partyDTO = partyService.GetPartyById(PartyId);
             return partyDTO;
-        }
-
-        // GET api/<ValuesController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
         }
 
         [HttpPut("{id}")]

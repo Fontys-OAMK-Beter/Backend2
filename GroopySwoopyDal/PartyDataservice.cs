@@ -20,10 +20,11 @@ namespace GroopySwoopyDAL
                 try
                 {
                     con.Open();
-                    using (SqlCommand cmd = new SqlCommand("INSERT INTO party(title,picture_url) VALUES(@title,@picture_url)", con))
+                    using (SqlCommand cmd = new SqlCommand("INSERT INTO party(title,picture_url) VALUES(@title,@picture_url); DECLARE @party_id int; SET @party_id = SCOPE_IDENTITY(); INSERT INTO [partyuser](user_id, party_id, partymanager) VALUES(@user_id, @party_id, 1)", con))
                     {
                         cmd.Parameters.AddWithValue("@title", party.Title);
                         cmd.Parameters.AddWithValue("@picture_url", party.PictureURL);
+                        cmd.Parameters.AddWithValue("@user_id", UserId);
 
                         cmd.ExecuteNonQuery();
                     }
@@ -112,7 +113,7 @@ namespace GroopySwoopyDAL
                 }
         }
 
-        public PartyDTO GetParty(int PartyId)
+        public PartyDTO GetPartyById(int PartyId)
         {
             PartyDTO party = new PartyDTO();
 
