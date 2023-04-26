@@ -1,7 +1,6 @@
 ﻿using GroopySwoopyDTO;
 using GroopySwoopyInterfaces;
 using Microsoft.Data.SqlClient;
-using MySqlConnector;
 using System;
 using System.Collections.Generic;
 using System.IO;
