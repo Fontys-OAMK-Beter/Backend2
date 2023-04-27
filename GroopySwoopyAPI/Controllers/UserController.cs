@@ -145,5 +145,14 @@ namespace GroopySwoopyAPI.Controllers
         {
             Response.Headers.Remove("Authorization");
         }
+
+        // get all users by partyid
+        //[HttpGet("{partyid}")]
+        //public UserDTO GetAllUsersbyPartyId(int PartyId)
+        //{
+        //    PartyService partyService = new PartyService(new PartyDataservice());
+        //    PartyDTO partyDTO = partyService.GetPartyById(PartyId);
+        //    return partyDTO;
+        //}
     }
 }

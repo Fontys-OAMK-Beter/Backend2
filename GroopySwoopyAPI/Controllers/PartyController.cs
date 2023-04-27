@@ -41,6 +41,8 @@ namespace GroopySwoopyAPI.Controllers
             partyService.Post(party, UserId);
         }
 
+
+        //get all users by partyid        
         
 
 
