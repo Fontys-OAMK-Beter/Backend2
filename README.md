@@ -6,6 +6,7 @@
 - [ ] login
 - [ ] authorise user
 - [ ] logout user
+- [ ] also do we have an endpoint for adding users to a group via something like post: groupid, email
 
 ## Event
 - [ ] get all events bt group id
@@ -26,6 +27,7 @@
 - [ ] Delete movie from user by movie id
 - [ ] Add movie to group, same stuff
 - [ ] Add movie to event: same stuff but crud for likes too
+- [ ] 
 
 
 ## Newly requested
