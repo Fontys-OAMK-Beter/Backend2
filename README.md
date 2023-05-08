@@ -16,11 +16,11 @@
 - [X] event also needs to save a date DD-MM-YYYY, can be saved as string since out of time
 
 ## Party(group)
-- [ ] get party
-- [ ] post party
-- [ ] add user to party
-- [ ] delete party
-- [ ] remover user from party
+- [X] get party
+- [X] post party
+- [X] add user to party
+- [X] delete party
+- [X] remover user from party
 
 ## Movie
 - [ ] Add movie to users favourites: Post, movieid
