@@ -24,7 +24,7 @@
 
 ## Movie
 - [ ] Add movie to users favourites: Post, movieid
-- [ ] Get all movies by userid
+- [X] Get all movies by userid
 - [ ] Delete movie from user by movie id
 - [ ] Add movie to group, same stuff
 - [ ] Add movie to event: same stuff but crud for likes too
