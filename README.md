@@ -13,6 +13,7 @@
 - [ ] get specific event for group
 - [ ] post event
 - [ ] delete event
+- [ ] event also needs to save a date DD-MM-YYYY, can be saved as string since out of time
 
 ## Party(group)
 - [ ] get party
