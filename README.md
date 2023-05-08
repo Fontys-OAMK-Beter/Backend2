@@ -28,7 +28,7 @@
 - [ ] Delete movie from user by movie id
 - [ ] Add movie to group, same stuff
 - [ ] Add movie to event: same stuff but crud for likes too
-- [ ] 
+- [X] Get movie by ID
 
 
 ## Newly requested
