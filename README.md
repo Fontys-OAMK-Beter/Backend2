@@ -8,12 +8,12 @@
 - [ ] logout user
 - [ ] also do we have an endpoint for adding users to a group via something like post: groupid, email
 
-## Event
-- [ X ] get all events bt group id
-- [ X ] get specific event for group
-- [ X ] post event
-- [ X ] delete event
-- [ X ] event also needs to save a date DD-MM-YYYY, can be saved as string since out of time
+## EvEnt
+- [X] get all events bt group id
+- [X] get specific event for group
+- [X] post event
+- [X] delete event
+- [X] event also needs to save a date DD-MM-YYYY, can be saved as string since out of time
 
 ## Party(group)
 - [ ] get party
