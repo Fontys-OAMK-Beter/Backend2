@@ -35,5 +35,10 @@ namespace GroopySwoopyLogic
         {
             return _dataservice.GetMovie();
         }
+
+        public List<MovieDTO> GetAllMoviesbyUserid(int id)
+        {
+            return _dataservice.GetAllMoviesbyId(id);
+        }
     }
 }

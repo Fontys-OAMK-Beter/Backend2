@@ -16,5 +16,7 @@ namespace GroopySwoopyInterfaces
         void AddMovie();
                 
         MovieDTO GetMovie();
+
+        List<MovieDTO> GetAllMoviesbyId(int id);
     }
 }

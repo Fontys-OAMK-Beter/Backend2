@@ -145,5 +145,42 @@ namespace GroopySwoopyDAL
             //return movie;
             return null;
         }
+
+        public List<MovieDTO> GetAllMoviesbyUserid(int UserId)
+        {
+            List<MovieDTO> movie = new List<MovieDTO>();
+
+            using (SqlConnection con = DatabaseConnection.CreateConnection())
+
+                try
+                {
+                    using (SqlCommand cmd = new SqlCommand("SELECT id, votes FROM [movie] WHERE id = (SELECT user_id FROM [movieuser] WHERE user_id = @user_id)", con))
+                    {
+                        cmd.Parameters.AddWithValue("@user_id", UserId);
+                        con.Open();
+                        var reader = cmd.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            movie.Add(new MovieDTO());
+                            movie.LastOrDefault().Id = reader.GetInt32(0);
+                            movie.LastOrDefault().Votes = reader.GetInt32(1);
+                           
+                        }
+                    }
+
+
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception.ToString());
+                    return null;
+                }
+                finally
+                {
+                    con.Close();
+                }
+            return movie;
+
+        }
     }
 }
