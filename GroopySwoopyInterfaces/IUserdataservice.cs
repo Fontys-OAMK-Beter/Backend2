@@ -16,5 +16,7 @@ namespace GroopySwoopyInterfaces
         UserDTO VerifyLoginCredentials(UserDTO user);
         Boolean AuthorizeUser(string Token);
         Boolean SetAuthToken(int UserID, string Token);
+        void DeleteUserByID(int id);
+        void UpdateUser(UserDTO user);
     }
 }

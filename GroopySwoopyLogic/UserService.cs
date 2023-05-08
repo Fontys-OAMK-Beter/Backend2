@@ -39,6 +39,17 @@ namespace GroopySwoopyLogic
         {
             return _Dataservice.GetUserByID(id);
         }
+
+        public void DeleteUserByID(int id)
+        {
+            _Dataservice.DeleteUserByID(id);
+        }
+
+        public void UpdateUser(UserDTO user)
+        {
+            _Dataservice.UpdateUser(user);
+        }
+
         public void Post(UserDTO user)
         {
             _Dataservice.Post(user);

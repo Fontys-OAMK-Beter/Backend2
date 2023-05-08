@@ -62,13 +62,13 @@ namespace GroopySwoopyDAL
 
                 try
                 {
-                    using (SqlCommand cmd = new SqlCommand("SELECT * FROM [user] WHERE id = "+id, con))
+                    using (SqlCommand cmd = new SqlCommand("SELECT * FROM [user] WHERE id = " + id, con))
                     {
                         con.Open();
                         var reader = cmd.ExecuteReader();
                         while (reader.Read())
                         {
-                            if(!reader.IsDBNull(0))
+                            if (!reader.IsDBNull(0))
                                 user.Id = reader.GetInt32(0);
 
                             if (!reader.IsDBNull(1))
@@ -94,6 +94,57 @@ namespace GroopySwoopyDAL
                     con.Close();
                 }
             return user;
+        }
+
+        public void DeleteUserByID(int id)
+        {
+            UserDTO user = new UserDTO();
+            using (SqlConnection con = DatabaseConnection.CreateConnection())
+
+                try
+                {
+                    using (SqlCommand cmd = new SqlCommand("DELETE FROM [user] WHERE id = " + id, con))
+                    {
+                        con.Open();
+                        var reader = cmd.ExecuteReader();
+                    }
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception.ToString());
+                }
+                finally
+                {
+                    con.Close();
+                }
+        }
+
+
+        public void UpdateUser(UserDTO user)
+        {
+            using (SqlConnection con = DatabaseConnection.CreateConnection())
+
+                try
+                {
+                    using (SqlCommand cmd = new SqlCommand("UPDATE [user] SET name = @name, password = @password, email = @email WHERE id = @id", con))
+                    {
+
+                        cmd.Parameters.AddWithValue("@name", user.Name);
+                        cmd.Parameters.AddWithValue("@password", user.Password);
+                        cmd.Parameters.AddWithValue("@email", user.Email);
+                        cmd.Parameters.AddWithValue("@id", user.Id);
+                        con.Open();
+                        var reader = cmd.ExecuteReader();
+                    }
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception.ToString());
+                }
+                finally
+                {
+                    con.Close();
+                }
         }
 
         public void Post(UserDTO user)

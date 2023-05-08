@@ -45,10 +45,7 @@ namespace GroopySwoopyAPI.Controllers
             User user = new User();
 
             if (!Authorize())
-            {
-                HttpContext.Response.StatusCode = (int)System.Net.HttpStatusCode.Unauthorized;
                 return user;
-            }
 
             UserDTO dbUser = userService.GetUserByID(id);
 
@@ -100,15 +97,17 @@ namespace GroopySwoopyAPI.Controllers
         }
 
         // PUT api/<UserController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("update")]
+        public void Put([FromBody] UserDTO _user)
         {
+            userService.UpdateUser(_user);
         }
 
         // DELETE api/<UserController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            userService.DeleteUserByID(id);
         }
 
         [Route("login")]
@@ -128,13 +127,15 @@ namespace GroopySwoopyAPI.Controllers
 
         private Boolean Authorize()
         {
-            //No valid token
-            if (Request.Headers.Authorization.Count == 0)
-                return false;
-
             //Valid token
             if (userService.AuthorizeUser(Request.Headers.Authorization.First()))
                 return true;
+            //No valid token
+            if (Request.Headers.Authorization.Count == 0)
+            {
+                HttpContext.Response.StatusCode = (int)System.Net.HttpStatusCode.Unauthorized;
+                return false;
+            }
 
             return false;
         }
