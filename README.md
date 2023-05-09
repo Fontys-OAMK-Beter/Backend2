@@ -1,12 +1,12 @@
 # Backend Endpoints
 
 ## User
-- [ ] get user
+- [X] get user
 - [X] register user
 - [X] login
 - [X] authorise user
-- [ ] logout user
-- [ ] also do we have an endpoint for adding users to a group via something like post: groupid, email
+- [X] logout user
+- [X] also do we have an endpoint for adding users to a group via something like post: groupid, email
 
 ## EvEnt
 - [X] get all events bt group id
@@ -32,9 +32,9 @@
 
 
 ## Newly requested
-- [ ] get all groups for 1 user by userId
+- [X] get all groups for 1 user by userId
 - [ ] get all events and event info that are linked to a group
-- [ ] get all users by groupid (pref by username)
+- [X] get all users by groupid (pref by username)
 - [ ] remover user from a group by user id and groupid
 
 
