@@ -40,5 +40,10 @@ namespace GroopySwoopyLogic
         {
             return _Dataservice.GetPartyById(PartyId);
         }
+
+        public List<UserDTO> GetUsersByPartyID(int id)
+        {
+            return _Dataservice.GetUsersByPartyID(id);
+        }
     }
 }

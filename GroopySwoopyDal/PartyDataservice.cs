@@ -68,7 +68,7 @@ namespace GroopySwoopyDAL
                 try
                 {
                     con.Open();
-                    using (SqlCommand cmd = new SqlCommand("DECLARE @UserID nvarchar(100); SET @UserID = (SELECT id FROM [user] WHERE email = @email); INSERT INTO partyuser(user_id,party_Id) VALUES(@UserID,@party_Id)", con))
+                    using (SqlCommand cmd = new SqlCommand("DECLARE @UserID int; SET @UserID = (SELECT id FROM [user] WHERE email = @email); INSERT INTO partyuser(user_id,party_Id) VALUES(@UserID,@party_Id)", con))
                     {
                         cmd.Parameters.AddWithValue("@email", email);
                         cmd.Parameters.AddWithValue("@party_Id", PartyId);
@@ -145,6 +145,50 @@ namespace GroopySwoopyDAL
                     con.Close();
                 }
             return party;
+        }
+
+        public List<UserDTO> GetUsersByPartyID(int PartyId)
+        {
+            List<UserDTO> users = new List<UserDTO>();
+
+            using (SqlConnection con = DatabaseConnection.CreateConnection())
+
+                try
+                {
+                    using (SqlCommand cmd = new SqlCommand("SELECT id, name, email, role, picture_url FROM [user] WHERE id = (SELECT user_id FROM [partyuser] WHERE party_id = @party_id)", con))
+                    {
+                        cmd.Parameters.AddWithValue("@party_id", PartyId);
+                        con.Open();
+                        var reader = cmd.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            users.Add(new UserDTO());
+
+                            if (!reader.IsDBNull(0))
+                                users.First().Id = reader.GetInt32(0);
+                            if (!reader.IsDBNull(1))
+                                users.First().Name = reader.GetString(1);
+                            if (!reader.IsDBNull(2))
+                                users.First().Email = reader.GetString(2);
+                            if (!reader.IsDBNull(3))
+                                users.First().Role = reader.GetString(3);
+                            if (!reader.IsDBNull(4))
+                                users.First().PictureUrl = reader.GetString(4);
+                        }
+                    }
+
+
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception.ToString());
+                    return null;
+                }
+                finally
+                {
+                    con.Close();
+                }
+            return users;
         }
     }
 }

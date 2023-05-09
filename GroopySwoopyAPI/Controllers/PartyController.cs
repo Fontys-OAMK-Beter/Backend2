@@ -32,7 +32,7 @@ namespace GroopySwoopyAPI.Controllers
         }
 
         [HttpPost]
-        public void post([FromBody]  string title,  string pictureUrl,  int UserId)
+        public void post([FromBody] string title, string pictureUrl, int UserId)
         {
             PartyService partyService = new PartyService(new PartyDataservice());
             PartyDTO party = new PartyDTO();
@@ -42,8 +42,25 @@ namespace GroopySwoopyAPI.Controllers
         }
 
 
-        //get all users by partyid        
-        
+        //get all users by partyid
+        [HttpGet("{id}/Users")]
+        public List<User> GetUsersByPartyID(int id)
+        {
+            PartyService partyService = new PartyService(new PartyDataservice());
+            List<User> Users = new List<User>();
+            var UserDTO = partyService.GetUsersByPartyID(id);
+            foreach(var dto in UserDTO)
+            {
+                Users.Add(new User());
+                Users.Last().Id = dto.Id;
+                Users.Last().Name = dto.Name;
+                Users.Last().Email = dto.Email;
+                Users.Last().Role = dto.Role;
+                Users.Last().PictureUrl = dto.PictureUrl;
+            }
+
+            return Users;
+        }
 
 
 

@@ -14,5 +14,6 @@ namespace GroopySwoopyInterfaces
         void PromoteUser(int UserId, int PartyId);
         PartyDTO GetPartyById(int PartyId);
         void AddUser(string email, int PartyId);
+        List<UserDTO> GetUsersByPartyID(int id);
     }
 }
