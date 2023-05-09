@@ -45,5 +45,13 @@ namespace GroopySwoopyAPI.Controllers
 
         }
 
+        [Route("Movie")]
+        [HttpPost]
+        public void AddMovie(string MovieId, int EventId)
+        {
+            movieService MovieService = new movieService(new MovieDataservice());
+            movieService.Add
+        }
+
     }
 }
