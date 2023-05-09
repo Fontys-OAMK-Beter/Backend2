@@ -29,24 +29,7 @@ namespace GroopySwoopyAPI.Controllers
         [HttpGet("{id}")]
         public User Get(int id)
         {
-            //UserService userService = new UserService(new UserDataservice());
-            //List<UserDTO> dbUsers = userService.GetAllUsers();
-
-
-            //List<User> users = new List<User>();
-            //foreach (var item in dbUsers)
-            //{
-            //    users.Add(new User());
-            //    users.LastOrDefault().Name = item.Name;
-            //}
-
-            //return users.ToArray();
-
             User user = new User();
-
-            if (!Authorize())
-                return user;
-
             UserDTO dbUser = userService.GetUserByID(id);
 
             user.Name = dbUser.Name;
@@ -62,12 +45,6 @@ namespace GroopySwoopyAPI.Controllers
         public List<Party> GetPartiesByUserId(int id)
         {
             List<Party> parties = new List<Party>();
-
-            //if (!Authorize())
-            //{
-            //    HttpContext.Response.StatusCode = (int)System.Net.HttpStatusCode.Unauthorized;
-            //    return user;
-            //}
 
             List<PartyDTO> partiesDTO = userService.GetPartiesByUserId(id);
 
