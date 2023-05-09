@@ -61,11 +61,12 @@ namespace GroopySwoopyAPI.Controllers
             partyService.RemoveUser(UserId, PartyId);
         }
 
-        //[HttpPost("")]
-        //public void AddUser(int UserId, int PartyId, [FromBody] Party partyModel)
-        //{
-        //    PartyService partyService = new PartyService(new PartyDataservice());
-        //    partyService.AddUser(UserId, PartyId);
-        //}
+        [Route("User")]
+        [HttpPost]
+        public void AddUser(string Email, int PartyId)
+        {
+            PartyService partyService = new PartyService(new PartyDataservice());
+            partyService.AddUser(Email, PartyId);
+        }
     }
 }

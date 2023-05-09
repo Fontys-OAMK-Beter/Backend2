@@ -27,9 +27,9 @@ namespace GroopySwoopyLogic
         {
             _Dataservice.RemoveUser(UserId, PartyId);
         }
-        public void AddUser(int UserId, int PartyId)
+        public void AddUser(string email, int PartyId)
         {
-            _Dataservice.RemoveUser(UserId, PartyId);
+            _Dataservice.AddUser(email, PartyId);
         }
 
         public void PromoteUser(int UserId, int PartyId)

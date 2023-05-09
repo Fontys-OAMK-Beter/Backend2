@@ -146,7 +146,7 @@ namespace GroopySwoopyDAL
             return null;
         }
 
-        public List<MovieDTO> GetAllMoviesbyUserid(int UserId)
+        public List<MovieDTO> GetAllMoviesbyId(int UserId)
         {
             List<MovieDTO> movie = new List<MovieDTO>();
 

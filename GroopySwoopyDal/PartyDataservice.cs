@@ -61,16 +61,16 @@ namespace GroopySwoopyDAL
                 }
         }
 
-        public void AddUser(int UserId, int PartyId)
+        public void AddUser(string email, int PartyId)
         {
             using (SqlConnection con = DatabaseConnection.CreateConnection())
 
                 try
                 {
                     con.Open();
-                    using (SqlCommand cmd = new SqlCommand("INSERT INTO partyuser(user_id,party_Id) VALUES(@user_id,@party_Id)", con))
+                    using (SqlCommand cmd = new SqlCommand("DECLARE @UserID nvarchar(100); SET @UserID = (SELECT id FROM [user] WHERE email = @email); INSERT INTO partyuser(user_id,party_Id) VALUES(@UserID,@party_Id)", con))
                     {
-                        cmd.Parameters.AddWithValue("@user_id", UserId);
+                        cmd.Parameters.AddWithValue("@email", email);
                         cmd.Parameters.AddWithValue("@party_Id", PartyId);
 
                         cmd.ExecuteNonQuery();
