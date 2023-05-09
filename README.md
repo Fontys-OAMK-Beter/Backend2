@@ -8,7 +8,7 @@
 - [X] logout user
 - [X] also do we have an endpoint for adding users to a group via something like post: groupid, email
 
-## EvEnt
+## Event
 - [X] get all events bt group id
 - [X] get specific event for group
 - [X] post event
