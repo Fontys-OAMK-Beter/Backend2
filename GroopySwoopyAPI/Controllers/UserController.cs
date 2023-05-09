@@ -104,15 +104,15 @@ namespace GroopySwoopyAPI.Controllers
 
         private Boolean Authorize()
         {
-            //Valid token
-            if (userService.AuthorizeUser(Request.Headers.Authorization.First()))
-                return true;
             //No valid token
             if (Request.Headers.Authorization.Count == 0)
             {
-                HttpContext.Response.StatusCode = (int)System.Net.HttpStatusCode.Unauthorized;
                 return false;
             }
+
+            //Valid token
+            if (userService.AuthorizeUser(Request.Headers.Authorization.First()))
+                return true;
 
             return false;
         }
