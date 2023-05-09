@@ -180,7 +180,44 @@ namespace GroopySwoopyDAL
                     con.Close();
                 }
             return movie;
-
         }
+        public List<MovieDTO> AddMovieToEvent(string MovieId, string EventId)
+        {
+            List<MovieDTO> movie = new List<MovieDTO>();
+
+            using (SqlConnection con = DatabaseConnection.CreateConnection())
+
+            try
+                {
+                    using (SqlCommand cmd = new SqlCommand("INSERT INTO movieevent (movie_id, event_id) VALUES (@movie_id, @event_id)", con))
+                    {
+                        cmd.Parameters.AddWithValue("@user_id", MovieId);
+                        cmd.Parameters.AddWithValue("@event_id", EventId);
+                        con.Open();
+                        var reader = cmd.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            movie.Add(new MovieDTO());
+                            movie.LastOrDefault().Id = reader.GetInt32(0);
+                            movie.LastOrDefault().Votes = reader.GetInt32(1);
+
+                        }
+                    }
+
+
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception.ToString());
+                    return null;
+                }
+                finally
+                {
+                    con.Close();
+                }
+            return movie;
+        }
+
+
     }
 }
