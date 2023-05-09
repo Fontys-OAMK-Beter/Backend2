@@ -2,9 +2,9 @@
 
 ## User
 - [ ] get user
-- [ ] register user
-- [ ] login
-- [ ] authorise user
+- [X] register user
+- [X] login
+- [X] authorise user
 - [ ] logout user
 - [ ] also do we have an endpoint for adding users to a group via something like post: groupid, email
 
