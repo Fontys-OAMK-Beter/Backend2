@@ -42,6 +42,7 @@ namespace GroopySwoopyAPI.Controllers
         }
 
 
+
         //get all users by partyid
         [HttpGet("{id}/Users")]
         public List<User> GetUsersByPartyID(int id)

@@ -26,9 +26,9 @@ namespace GroopySwoopyLogic
             _dataservice.RemoveMovie();
         }
 
-        public void AddMovie()
+        public void AddMovie(string a, string b)
         {
-            _dataservice.AddMovie();
+            _dataservice.AddMovie(a,b);
         }
 
         public MovieDTO GetMovie() 

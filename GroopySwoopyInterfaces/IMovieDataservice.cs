@@ -13,7 +13,7 @@ namespace GroopySwoopyInterfaces
 
         void RemoveMovie();
 
-        void AddMovie();
+        void AddMovie(string MovieId, string EventId);
                 
         MovieDTO GetMovie();
 

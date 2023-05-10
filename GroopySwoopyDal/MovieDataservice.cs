@@ -181,7 +181,7 @@ namespace GroopySwoopyDAL
                 }
             return movie;
         }
-        public List<MovieDTO> AddMovieToEvent(string MovieId, string EventId)
+        public void AddMovie(string MovieId, string EventId)
         {
             List<MovieDTO> movie = new List<MovieDTO>();
 
@@ -209,13 +209,11 @@ namespace GroopySwoopyDAL
                 catch (Exception exception)
                 {
                     Console.WriteLine(exception.ToString());
-                    return null;
                 }
                 finally
                 {
                     con.Close();
                 }
-            return movie;
         }
 
 
