@@ -23,7 +23,6 @@
 - [X] remover user from party
 
 ## Movie
-- [ ] Add movie to users favourites: Post, movieid
 - [X] Get all movies by userid
 - [x] Delete movie from user by movie id
 - [ ] Add movie to group, same stuff
@@ -33,9 +32,9 @@
 
 ## Newly requested
 - [X] get all groups for 1 user by userId
-- [ ] get all events and event info that are linked to a group
+- [x] get all events and event info that are linked to a group
 - [X] get all users by groupid (pref by username)
-- [ ] remover user from a group by user id and groupid
+- [x] remover user from a group by user id and groupid
 
 
 
