@@ -99,7 +99,7 @@ namespace GroopySwoopyAPI.Controllers
             if (Token != null)
                 Response.Headers.Add("Authorization", Token);
             else
-                Response.StatusCode = new BadRequestResult().StatusCode;
+                Response.StatusCode = new UnauthorizedResult().StatusCode;
         }
 
         private Boolean Authorize()
