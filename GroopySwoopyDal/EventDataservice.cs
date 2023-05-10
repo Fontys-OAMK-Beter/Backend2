@@ -40,7 +40,7 @@ namespace GroopySwoopyDAL
 
                 try
                 {
-                    using (SqlCommand cmd = new SqlCommand("SELECT * FROM event WHERE group_id = " + id, con))
+                    using (SqlCommand cmd = new SqlCommand("SELECT * FROM event WHERE party_id = " + id, con))
                     {
                         con.Open();
                         var reader = cmd.ExecuteReader();
