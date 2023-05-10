@@ -158,7 +158,7 @@ namespace GroopySwoopyDAL
 
                 try
                 {
-                    using (SqlCommand cmd = new SqlCommand("SELECT id, name, email, role, picture_url FROM [user] WHERE id = (SELECT user_id FROM [partyuser] WHERE party_id = @party_id)", con))
+                    using (SqlCommand cmd = new SqlCommand("SELECT id, name, email, role, picture_url FROM [user] WHERE id IN (SELECT user_id FROM [partyuser] WHERE party_id = @party_id)", con))
                     {
                         cmd.Parameters.AddWithValue("@party_id", PartyId);
                         con.Open();
@@ -168,15 +168,15 @@ namespace GroopySwoopyDAL
                             users.Add(new UserDTO());
 
                             if (!reader.IsDBNull(0))
-                                users.First().Id = reader.GetInt32(0);
+                                users.Last().Id = reader.GetInt32(0);
                             if (!reader.IsDBNull(1))
-                                users.First().Name = reader.GetString(1);
+                                users.Last().Name = reader.GetString(1);
                             if (!reader.IsDBNull(2))
-                                users.First().Email = reader.GetString(2);
+                                users.Last().Email = reader.GetString(2);
                             if (!reader.IsDBNull(3))
-                                users.First().Role = reader.GetString(3);
+                                users.Last().Role = reader.GetString(3);
                             if (!reader.IsDBNull(4))
-                                users.First().PictureUrl = reader.GetString(4);
+                                users.Last().PictureUrl = reader.GetString(4);
                         }
                     }
 
