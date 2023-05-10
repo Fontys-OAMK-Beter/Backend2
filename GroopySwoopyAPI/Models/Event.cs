@@ -7,5 +7,6 @@ namespace GroopySwoopyAPI.Models
         public string Description { get; set; }
         public string Title { get; set; }
         public string PictureURL { get; set; }
+        public int group_id { get; set; }
     }
 }
