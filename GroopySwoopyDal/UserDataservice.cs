@@ -22,7 +22,7 @@ namespace GroopySwoopyDAL
 
             try
             {
-                    using (SqlCommand cmd = new SqlCommand("SELECT * FROM [user]", con))
+                    using (SqlCommand cmd = new SqlCommand("SELECT id, name, password, email, picture_url, role FROM [user]", con))
                     {
                         con.Open();
                         var reader = cmd.ExecuteReader();
@@ -38,6 +38,10 @@ namespace GroopySwoopyDAL
                                 user.Password = reader.GetString(2);
                             if (!reader.IsDBNull(3))
                                 user.Email = reader.GetString(3);
+                            if (!reader.IsDBNull(4))
+                                user.PictureUrl = reader.GetString(4);
+                            if (!reader.IsDBNull(5))
+                                user.Role = reader.GetString(5);
 
 
 
@@ -66,7 +70,7 @@ namespace GroopySwoopyDAL
 
                 try
                 {
-                    using (SqlCommand cmd = new SqlCommand("SELECT * FROM [user] WHERE id = " + id, con))
+                    using (SqlCommand cmd = new SqlCommand("SELECT id, name, password, email, picture_url, role FROM [user] WHERE id = " + id, con))
                     {
                         con.Open();
                         var reader = cmd.ExecuteReader();
@@ -74,15 +78,16 @@ namespace GroopySwoopyDAL
                         {
                             if (!reader.IsDBNull(0))
                                 user.Id = reader.GetInt32(0);
-
                             if (!reader.IsDBNull(1))
                                 user.Name = reader.GetString(1);
-
                             if (!reader.IsDBNull(2))
                                 user.Password = reader.GetString(2);
-
                             if (!reader.IsDBNull(3))
                                 user.Email = reader.GetString(3);
+                            if (!reader.IsDBNull(4))
+                                user.PictureUrl = reader.GetString(4);
+                            if (!reader.IsDBNull(5))
+                                user.Role = reader.GetString(5);
                         }
                     }
 

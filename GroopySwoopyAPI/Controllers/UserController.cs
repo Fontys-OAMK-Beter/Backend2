@@ -35,6 +35,8 @@ namespace GroopySwoopyAPI.Controllers
             user.Name = dbUser.Name;
             user.Email = dbUser.Email;
             user.Password = dbUser.Password;
+            user.PictureUrl = dbUser.PictureUrl;
+            user.Role = dbUser.Role;
 
             return user;
 
