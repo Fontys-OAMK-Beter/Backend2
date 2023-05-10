@@ -127,9 +127,12 @@ namespace GroopySwoopyDAL
                         var reader = cmd.ExecuteReader();
                         while (reader.Read())
                         {
-                            party.Id = reader.GetInt32(0);
-                            party.PictureURL= reader.GetString(1);
-                            party.Title = reader.GetString(2);
+                            if (!reader.IsDBNull(0))
+                                party.Id = reader.GetInt32(0);
+                            if (!reader.IsDBNull(1))
+                                party.PictureURL= reader.GetString(1);
+                            if (!reader.IsDBNull(2))
+                                party.Title = reader.GetString(2);
                         }
                     }
 

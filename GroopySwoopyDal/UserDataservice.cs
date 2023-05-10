@@ -30,10 +30,14 @@ namespace GroopySwoopyDAL
                         {
 
                             UserDTO user = new UserDTO();
-                            user.Id = reader.GetInt32(0);
-                            user.Name = reader.GetString(1);
-                            user.Password = reader.GetString(2);
-                            user.Email = reader.GetString(3);
+                            if (!reader.IsDBNull(0))
+                                user.Id = reader.GetInt32(0);
+                            if (!reader.IsDBNull(1))
+                                user.Name = reader.GetString(1);
+                            if (!reader.IsDBNull(2))
+                                user.Password = reader.GetString(2)
+                            if (!reader.IsDBNull(3))
+                                user.Email = reader.GetString(3);
 
 
 
@@ -287,9 +291,12 @@ namespace GroopySwoopyDAL
                         while (reader.Read())
                         {
                             party.Add(new PartyDTO());
-                            party.LastOrDefault().Id = reader.GetInt32(0);
-                            party.LastOrDefault().PictureURL = reader.GetString(1);
-                            party.LastOrDefault().Title = reader.GetString(2);
+                            if (!reader.IsDBNull(0))
+                                party.LastOrDefault().Id = reader.GetInt32(0);
+                            if (!reader.IsDBNull(1))
+                                party.LastOrDefault().PictureURL = reader.GetString(1);
+                            if (!reader.IsDBNull(2))
+                                party.LastOrDefault().Title = reader.GetString(2);
                         }
                     }
 
