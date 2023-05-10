@@ -55,15 +55,15 @@ namespace GroopySwoopyAPI.Controllers
 
         // POST api/<EventController>
         [HttpPost]
-        public void Post(string Description, string Title,int GroupId, string PictureURl)
+        public void Post([FromBody] Event _event)
         {
             EventService eventService = new EventService(new EventDataservice());
             EventDTO @event = new EventDTO();
             //@event.StartTime = StartTime;
-            @event.Description = Description;
-            @event.Title = Title;
-            @event.GroupId = GroupId;
-            @event.PictureUrl = PictureURl;
+            @event.Description = _event.Description;
+            @event.Title = _event.Title;
+            @event.GroupId = _event.group_id;
+            @event.PictureUrl = _event.PictureURL;
             eventService.Post(@event);
         }
 
