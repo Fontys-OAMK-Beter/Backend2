@@ -35,7 +35,7 @@ namespace GroopySwoopyDAL
                             if (!reader.IsDBNull(1))
                                 user.Name = reader.GetString(1);
                             if (!reader.IsDBNull(2))
-                                user.Password = reader.GetString(2)
+                                user.Password = reader.GetString(2);
                             if (!reader.IsDBNull(3))
                                 user.Email = reader.GetString(3);
 
