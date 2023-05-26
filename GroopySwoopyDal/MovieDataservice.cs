@@ -162,8 +162,10 @@ namespace GroopySwoopyDAL
                         while (reader.Read())
                         {
                             movie.Add(new MovieDTO());
-                            movie.LastOrDefault().Id = reader.GetInt32(0);
-                            movie.LastOrDefault().Votes = reader.GetInt32(1);
+                            if (!reader.IsDBNull(0))
+                                movie.LastOrDefault().Id = reader.GetInt32(0);
+                            if (!reader.IsDBNull(1))
+                                movie.LastOrDefault().Votes = reader.GetInt32(1);
                            
                         }
                     }
@@ -198,8 +200,10 @@ namespace GroopySwoopyDAL
                         while (reader.Read())
                         {
                             movie.Add(new MovieDTO());
-                            movie.LastOrDefault().Id = reader.GetInt32(0);
-                            movie.LastOrDefault().Votes = reader.GetInt32(1);
+                            if (!reader.IsDBNull(0))
+                                movie.LastOrDefault().Id = reader.GetInt32(0);
+                            if (!reader.IsDBNull(1))
+                                movie.LastOrDefault().Votes = reader.GetInt32(1);
 
                         }
                     }

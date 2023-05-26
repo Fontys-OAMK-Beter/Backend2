@@ -67,7 +67,7 @@ namespace GroopySwoopyLogic
             user.Password = password;
             user = _Dataservice.VerifyLoginCredentials(user);
 
-            if (user.Id < 0)
+            if (user.Id == null)
                 return null;
             
             string Token = GenerateJWT(user);

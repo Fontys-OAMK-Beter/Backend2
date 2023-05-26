@@ -32,13 +32,13 @@ namespace GroopySwoopyAPI.Controllers
         }
 
         [HttpPost]
-        public void post([FromBody] string title, string pictureUrl, int UserId)
+        public void post([FromBody] Party _party)
         {
             PartyService partyService = new PartyService(new PartyDataservice());
             PartyDTO party = new PartyDTO();
-            party.Title = title;
-            party.PictureURL = pictureUrl;
-            partyService.Post(party, UserId);
+            party.Title = _party.Title;
+            party.PictureURL = _party.PictureURL;
+            partyService.Post(party, _party.UserID);
         }
 
 

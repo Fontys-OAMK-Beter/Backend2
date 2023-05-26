@@ -40,7 +40,7 @@ namespace GroopySwoopyDAL
 
                 try
                 {
-                    using (SqlCommand cmd = new SqlCommand("SELECT * FROM event WHERE group_id = " + id, con))
+                    using (SqlCommand cmd = new SqlCommand("SELECT * FROM event WHERE party_id = " + id, con))
                     {
                         con.Open();
                         var reader = cmd.ExecuteReader();
@@ -48,12 +48,18 @@ namespace GroopySwoopyDAL
                         {
 
                             EventDTO @event = new EventDTO();
-                            @event.Id = reader.GetInt32(0);
-                            @event.StartTime = reader.GetDateTime(1);
-                            @event.Description = reader.GetString(2);
-                            @event.Title = reader.GetString(3);
-                            @event.GroupId = reader.GetInt32(4);
-                            @event.PictureUrl = reader.GetString(5);
+                            if (!reader.IsDBNull(0))
+                                @event.Id = reader.GetInt32(0);
+                            if (!reader.IsDBNull(1))
+                                @event.StartTime = reader.GetDateTime(1);
+                            if (!reader.IsDBNull(2))
+                                @event.Description = reader.GetString(2);
+                            if (!reader.IsDBNull(3))
+                                @event.Title = reader.GetString(3);
+                            if (!reader.IsDBNull(4))
+                                @event.GroupId = reader.GetInt32(4);
+                            if (!reader.IsDBNull(5))
+                                @event.PictureUrl = reader.GetString(5);
 
 
 

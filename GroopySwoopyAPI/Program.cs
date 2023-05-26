@@ -9,7 +9,7 @@ builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
     // Set a short timeout for easy testing.
-    options.IdleTimeout = TimeSpan.FromSeconds(30);
+    options.IdleTimeout = TimeSpan.FromSeconds(28800);
     options.Cookie.HttpOnly = true;
 });
 

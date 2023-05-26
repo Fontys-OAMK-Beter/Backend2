@@ -35,6 +35,8 @@ namespace GroopySwoopyAPI.Controllers
             user.Name = dbUser.Name;
             user.Email = dbUser.Email;
             user.Password = dbUser.Password;
+            user.PictureUrl = dbUser.PictureUrl;
+            user.Role = dbUser.Role;
 
             return user;
 
@@ -99,20 +101,20 @@ namespace GroopySwoopyAPI.Controllers
             if (Token != null)
                 Response.Headers.Add("Authorization", Token);
             else
-                Response.StatusCode = new BadRequestResult().StatusCode;
+                Response.StatusCode = new UnauthorizedResult().StatusCode;
         }
 
         private Boolean Authorize()
         {
-            //Valid token
-            if (userService.AuthorizeUser(Request.Headers.Authorization.First()))
-                return true;
             //No valid token
             if (Request.Headers.Authorization.Count == 0)
             {
-                HttpContext.Response.StatusCode = (int)System.Net.HttpStatusCode.Unauthorized;
                 return false;
             }
+
+            //Valid token
+            if (userService.AuthorizeUser(Request.Headers.Authorization.First()))
+                return true;
 
             return false;
         }
