@@ -44,11 +44,12 @@ namespace GroopySwoopyAPI.Controllers
 
 
             Event @event = new Event();
-            @event.Title = dbUser.Title;
             @event.Id = dbUser.Id;
-            @event.Description = dbUser.Description;
-            @event.PictureURL = dbUser.PictureUrl;
             @event.StartTime = dbUser.StartTime;
+            @event.Description = dbUser.Description;
+            @event.Title = dbUser.Title;
+            @event.PictureURL = dbUser.PictureUrl;
+            
 
             return @event;
         }

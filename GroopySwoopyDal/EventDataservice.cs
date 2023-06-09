@@ -90,7 +90,7 @@ namespace GroopySwoopyDAL
                     using (SqlCommand cmd = new SqlCommand("SELECT * FROM event WHERE (party_id = @party_id AND id = @id)", con))
                     {
                         cmd.Parameters.AddWithValue("@id", EventId);
-                        cmd.Parameters.AddWithValue("@group_id", GroupId);
+                        cmd.Parameters.AddWithValue("@party_id", GroupId);
 
                         con.Open();
                         var reader = cmd.ExecuteReader();
