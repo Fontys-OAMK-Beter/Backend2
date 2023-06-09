@@ -287,7 +287,7 @@ namespace GroopySwoopyDAL
 
                 try
                 {
-                    using (SqlCommand cmd = new SqlCommand("SELECT id, picture_url, title FROM [party] WHERE id = (SELECT party_id FROM [partyuser] WHERE user_id = @user_id)", con))
+                    using (SqlCommand cmd = new SqlCommand("SELECT p.id, p.picture_url, p.title FROM party p INNER JOIN partyuser pu ON p.id = pu.party_id WHERE pu.user_id = @user_id", con))
                     //using (SqlCommand cmd = new SqlCommand("SELECT party_id FROM [partyuser] WHERE user_id = @user_id", con))
                     {
                         cmd.Parameters.AddWithValue("@user_id", UserId);

@@ -3,6 +3,7 @@ using GroopySwoopyDAL;
 using GroopySwoopyDTO;
 using GroopySwoopyLogic;
 using Microsoft.AspNetCore.Mvc;
+using System.IO;
 using System.Text.RegularExpressions;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
